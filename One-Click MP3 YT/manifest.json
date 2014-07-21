@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+
+  "name": "One-Click MP3 Downloader for YouTube",
+  "description": "Adds a button to YouTube video pages and thumbnails for immediate download (both MP3 and video downloads available)!",
+  "version": "1.0.7",
+
+  "content_scripts": [{
+      "js": ["contentscript.js"],
+      "run_at": "document_end",
+      "matches": ["https://*.youtube.com/*", "http://*.youtube.com/*"]
+
+  }],
+
+  "icons": { 
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png" 
+  },
+
+  "permissions": [
+    "storage"
+  ],
+
+  "web_accessible_resources": [
+    "images/*"
+  ],
+
+  "options_page": "options.html",
+
+  "permissions": [
+    "storage",
+    "https://*.youtube.com/*",
+    "http://*.youtube.com/*"
+  ] 
+}
+

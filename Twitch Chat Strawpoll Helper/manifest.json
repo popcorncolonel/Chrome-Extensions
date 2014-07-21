@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+
+  "name": "Twitch Chat Strawpoll Helper",
+  "description": "Reformats Twitch chat messages that include links to strawpoll.me.",
+  "version": "1.1",
+
+  "content_scripts": [{
+      "js": ["contentscript.js"],
+      "matches": ["https://*.twitch.tv/*", "http://*.twitch.tv/*"]
+  }],
+
+  "icons": { 
+      "16": "images/16.png",
+      "48": "images/48.png",
+      "128": "images/128.png" 
+  },
+
+  "web_accessible_resources": [
+    "images/*"
+  ],
+
+  "options_page": "options.html",
+
+  "permissions": [
+    "storage",
+    "https://*.twitch.tv/*",
+    "http://*.twitch.tv/*"
+  ] 
+}
+

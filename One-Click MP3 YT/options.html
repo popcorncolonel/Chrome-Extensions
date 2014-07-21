@@ -1,0 +1,64 @@
+<html>
+ <title>One-Click Downloader Option</title>
+  <font face="verdana">
+    <div style="font-size: 90%;color:#111111";>
+      <h3 style="display:inline;color:#222222;">General Options</h3>
+      <br>
+      <label style="margin-left:1.5em;padding:0;">
+          <input id="autodl" type="checkbox"> Download MP3 files automatically?
+      </label>
+      <br>
+      <p id="autodlnote" style="font-size: 70%; color:#888888; margin-left:4.5em;display:inline;"> 
+        Note: If you uncheck this option, you will be able to manually edit the title and author of the downloaded file, and you will be able to download video files!
+      <br>
+      </p>
+      <label style="margin-left:3em;display:none;">
+          <input id="newtab" type="checkbox" checked> Open Dirpy links in new tab?
+          <br>
+      </label>
+      <br>
+      <br>
+      <label>
+        <input id="thumbnail" type="checkbox" checked> 
+        <h3 style="display:inline;color:#222222;">Show download link in the thumbnails of:</h3>
+      </label> 
+      <br>
+      <div id="thumbnaildiv" style="margin-left:2.5em;">
+        <label> 
+            <input id="showonsearch" type="checkbox" checked>Search results
+        </label> 
+        <br>
+        <label> 
+            <input id="showonrelated" type="checkbox" checked>Related videos
+        </label>
+        <br>
+        <label> 
+            <input id="playlists" type="checkbox" checked>Playlist pages
+        </label>
+        <br>
+        <label> 
+            <input id="otherpages" type="checkbox" checked>All other YouTube pages
+        </label>
+      </div>
+      <br>
+      <p id="thumbpreviewhover" style="display:inline;">(Hover over for a preview of the thumbnail download button)</p>
+      <br>
+      <img id="thumbpreview" style="display:none;">
+      <br>
+      <br>
+    </div>
+    <br>
+    <div id="status" style="display:none; font-size:100%; color:#ff0000;">Saved!</div>
+    <div data-role="footer" style = "position:fixed; bottom:0px; left:10px">
+      <h3><a href="mailto:popcorncolonel@gmail.com?subject=I found a One-Click MP3 Downloader bug!">Report a bug</a></h3>
+    </div>
+   <font face="Comic Sans MS">
+    <div data-role="footer" style = "position:fixed; bottom:0px; right:10px;">
+      <h3 id="donationaddress">
+        DJwf2p9LtMyF9XxkUXxmZpXa2yE9bR5QTv
+      </h3>
+    </div>
+   </font>
+  </font>
+  <script src="options.js"></script>
+</html>
