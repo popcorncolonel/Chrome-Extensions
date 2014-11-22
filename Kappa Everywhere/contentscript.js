@@ -68,13 +68,38 @@ function get_emotes() {
 
 emote_dict = new Object;
 
-function draw_emotes() {
-    var text = document.innerText;
+function replace_text(element) {
+    var value = element.nodeValue;
+    for (var word in value.split(/\b/)) {
+        if (word in emote_dict) {
+            value = value.replace(word, '<img src="'+emote_dict[word]+'">');
+        }
+    }
+    element.nodeValue = value;
+}
+
+function walk(element) {
+    var child, next;
+    switch(element.nodeType) {
+        case 1:
+        case 9:
+        case 11:
+            child = element.firstChild;
+            while (child) {
+                next = child.nextSibling;
+                walk(child);
+                child = next;
+            }
+        case 3:
+            replace_text(element);
+            break
+    }
+    var text = element.innerHTML;
     console.log(text);
     for (var word in text.split(/\b/)) {
         if (word in emote_dict) {
-            document.innerText = text.replace(word,
-                                              '<img src="'+emote_dict[word]+'">');
+            element.innerHTML = text.replace(word,
+                                             '<img src="'+emote_dict[word]+'">');
         }
     }
 }
