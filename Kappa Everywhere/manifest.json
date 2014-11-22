@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+
+  "name": "Kappa Everywhere",
+  "description": "Replaces matching on all websites with Twitch emotes.",
+  "version": "1.0.0",
+
+  "content_scripts": [{
+      "js": ["contentscript.js"],
+      "run_at": "document_end",
+      "matches": ["*"]
+  }],
+
+  "icons": { 
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png" 
+  },
+
+  "permissions": [
+    "storage"
+  ],
+
+  "options_page": "options.html",
+}
