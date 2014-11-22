@@ -6,23 +6,34 @@
      font-family: verdana;
      font-size: 90%;
  }
+ #checkboxes {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+ }
 </style> 
 
 </head>
 <body>
-    <div>
-    <label><input id="no_global_emotes" type="checkbox">Do not replace global emotes</label> 
-    </div>
+
+    <!-- checkboxes - the true options -->
+    <div id="checkboxes">
+        <h2> Options </h2>
+        <label><input id="no_global_emotes" type="checkbox">Do not draw global emotes</label> 
+        <br>
+        <label><input id="no_sub_emotes" type="checkbox" checked>Do not draw sub emotes</label> 
+
         <div id="globaldiv">
-        <label style="margin-left: 3em;"><input id="only_kappa" type="checkbox">Only show Kappa</label> 
+          <label><input id="only_kappa" type="checkbox">Only draw Kappa</label> 
         </div>
+    </div>
 
-    <br>
-    <label><input id="no_sub_emotes" type="checkbox" checked>Do not replace sub emotes</label> 
-
-<!-- footer, begging, whatnot -->
+    <!-- footer, begging, whatnot -->
     <div id="saved" style="display:none; font-size:100%; color:#ff0000;">Saved!</div>
-    <div data-role="footer" style = "position:fixed; bottom:0px; left:10px">
+    <div data-role="footer" style = "position:fixed; bottom:0px; left:10px;">
       <h3><a href="mailto:popcorncolonel@gmail.com?subject=I found a Kappa Everywhere bug!">Report a bug</a></h3>
     </div>
    <font face="Comic Sans MS">
@@ -32,7 +43,7 @@
       </h3>
     </div>
 
-<!-- Javascript -->
-<script src="options.js"></script>
+    <!-- Javascript -->
+    <script src="options.js"></script>
 </body>
 </html>

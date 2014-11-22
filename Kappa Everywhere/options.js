@@ -1,6 +1,6 @@
 /* TODO */
-//dynamically create a lot of sub-checkboxes for specific global emotes
-//dynamically create a lot of sub-checkboxes for specific sub emotes
+// dynamically create a lot of sub-checkboxes for specific global emotes
+// dynamically create a lot of sub-checkboxes for specific sub emotes
 
 var idlist = [
     'no_global_emotes',
@@ -11,6 +11,9 @@ var idlist = [
 // startup stuff
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('no_global_emotes').addEventListener('click', reset_buttons);
+document.getElementById('no_sub_emotes').addEventListener('click', reset_buttons);
+document.getElementById('only_kappa').addEventListener('click', enable_kappa);
+
 for (var i=0; i < idlist.length; i++) {
     document.getElementById(idlist[i]).addEventListener('click', save_options);
 }
@@ -28,18 +31,31 @@ document.getElementById('begging').addEventListener('mouseout', function () {
     p.parentNode.removeChild(p);
 });
 
+function enable_kappa() {
+    only_kappa = document.getElementById('only_kappa');
+    if (!only_kappa.checked) {
+        only_kappa.parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw Kappa';
+        return;
+    }
+    document.getElementById('no_sub_emotes').checked = false;
+    document.getElementById('no_global_emotes').checked = false;
+    only_kappa.parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="TODO.png">';
+    document.getElementById('globaldiv').style.setProperty("text-decoration", "none");
+    document.getElementById('globaldiv').style.setProperty("color", "#000");
+}
+
 //handles dependant checkbox interaction
 //i.e.: if someone clicks "do not replace global emotes", it unchecks and disables the "only filter kappa" option
 function reset_buttons() {
   var no_global_emotes = document.getElementById('no_global_emotes');
   var only_kappa = document.getElementById('only_kappa');
   var no_sub_emotes = document.getElementById('no_sub_emotes');
-  if (no_global_emotes.checked) {
-    only_kappa.checked = false;
+  if (no_global_emotes.checked || no_sub_emotes.checked) {
     document.getElementById('globaldiv').style.setProperty("text-decoration", "line-through");
     document.getElementById('globaldiv').style.setProperty("color", "#777");
   }
   else {
+    only_kappa.parent.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="TODO.png">';
     document.getElementById('globaldiv').style.setProperty("text-decoration", "none");
     document.getElementById('globaldiv').style.setProperty("color", "#000");
   }
