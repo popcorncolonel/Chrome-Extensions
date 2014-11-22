@@ -61,71 +61,33 @@ function fade(element) {
 
 //saves the options using the chrome storage API - happens each click
 function save_options() {
-  var newtab = document.getElementById('newtab');
-  var autodl = document.getElementById('autodl');
-  var showsearch = document.getElementById('showonsearch');
-  var showrelated = document.getElementById('showonrelated');
-  var playlists = document.getElementById('playlists');
-  var otherpages = document.getElementById('otherpages');
-  var thumbnail = document.getElementById('thumbnail');
-  if (showsearch.checked || showrelated.checked || playlists.checked || otherpages.checked) {
-    thumbnail.checked = true;
-    document.getElementById('thumbnaildiv').style.setProperty("text-decoration", "none");
-  } else {
-    thumbnail.checked = false;
-    document.getElementById('thumbnaildiv').style.setProperty("text-decoration", "line-through");
-  }
-    if (document.getElementById('autodl').checked) {
-      document.getElementById('newtab').parentNode.style.display = "none";
-      document.getElementById('autodlnote').style.display = "inline";
-    } else {
-      document.getElementById('newtab').parentNode.style.display = "inline";
-      document.getElementById('autodlnote').style.display = "none";
-    }
+  var only_kappa = document.getElementById('only_kappa');
+  var no_global_emotes = document.getElementById('no_global_emotes');
+  var no_sub_emotes = document.getElementById('no_sub_emotes');
+
   chrome.storage.sync.set({
-    newtab: newtab.checked,
-    autodl: autodl.checked,
-    show_on_search: showsearch.checked,
-    show_on_related: showrelated.checked,
-    playlists: playlists.checked,
-    otherpages: otherpages.checked,
-    thumbnails: thumbnail.checked
+    no_global_emotes: no_global_emotes.checked,
+    only_kappa: only_kappa.checked,
+    no_sub_emotes: no_sub_emotes.checked,
   }, function() {
-    // Update status to let user know options were saved.
-    var stats = document.getElementById('status');
+    // Draw "Saved!" to let user know options were saved.
+    var stats = document.getElementById('saved');
     stats.style.opacity = 1;
     stats.style.display = "inline";
-    setTimeout(function()
-            { fade(stats) }
-    , 400);
+    setTimeout(function() { fade(stats); }, 400);
   });
 }
 
 // Restores checkbox state using the preferences stored in chrome.storage.
 function restore_options() {
   chrome.storage.sync.get({
-    newtab: true, //defaults
-    autodl: true,
-    show_on_search: true,
-    show_on_related: true,
-    playlists: true,
-    otherpages: true,
-    thumbnails: true
+    no_global_emotes: false, //defaults
+    only_kappa: false,
+    no_sub_emotes: true,
   }, function(items) {
-      document.getElementById('newtab').checked = items.newtab;
-      document.getElementById('autodl').checked = items.autodl;
-      document.getElementById('showonsearch').checked = items.show_on_search;
-      document.getElementById('showonrelated').checked = items.show_on_related;
-      document.getElementById('playlists').checked = items.playlists;
-      document.getElementById('otherpages').checked = items.otherpages;
-      document.getElementById('thumbnail').checked = items.thumbnails;
-      if (document.getElementById('autodl').checked) {
-        document.getElementById('newtab').parentNode.style.display = "none";
-        document.getElementById('autodlnote').style.display = "inline";
-      } else {
-        document.getElementById('newtab').parentNode.style.display = "inline";
-        document.getElementById('autodlnote').style.display = "none";
-      }
+      document.getElementById('no_global_emotes').checked = items.no_global_emotes;
+      document.getElementById('only_kappa').checked = items.only_kappa;
+      document.getElementById('no_sub_emotes').checked = items.no_sub_emotes;
   });
 }
 
