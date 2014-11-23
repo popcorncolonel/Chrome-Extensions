@@ -31,15 +31,17 @@ document.getElementById('begging').addEventListener('mouseout', function () {
     p.parentNode.removeChild(p);
 });
 
+//oh no this is so unreadable
 function enable_kappa() {
-    only_kappa = document.getElementById('only_kappa');
-    if (!only_kappa.checked) {
-        only_kappa.parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw Kappa';
+    if (!document.getElementById('only_kappa').checked) { //reset to normal
+        document.getElementById('only_kappa').parentElement.innerHTML = '<input id="only_kappa" type="checkbox">Only draw Kappa';
+        document.getElementById('only_kappa').parentElement.addEventListener('click', enable_kappa);
         return;
     }
     document.getElementById('no_sub_emotes').checked = false;
     document.getElementById('no_global_emotes').checked = false;
-    only_kappa.parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="TODO.png">';
+    document.getElementById('only_kappa').parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="TODO.png">';
+    document.getElementById('only_kappa').parentElement.addEventListener('click', enable_kappa);
     document.getElementById('globaldiv').style.setProperty("text-decoration", "none");
     document.getElementById('globaldiv').style.setProperty("color", "#000");
 }
@@ -51,11 +53,14 @@ function reset_buttons() {
   var only_kappa = document.getElementById('only_kappa');
   var no_sub_emotes = document.getElementById('no_sub_emotes');
   if (no_global_emotes.checked || no_sub_emotes.checked) {
+    console.log(only_kappa.parentElement);
+    document.getElementById('only_kappa').parentElement.innerHTML = '<input id="only_kappa" type="checkbox">Only draw Kappa';
+    document.getElementById('only_kappa').parentElement.addEventListener('click', enable_kappa);
     document.getElementById('globaldiv').style.setProperty("text-decoration", "line-through");
     document.getElementById('globaldiv').style.setProperty("color", "#777");
-  }
-  else {
-    only_kappa.parent.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="TODO.png">';
+  } else {
+    only_kappa.parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="TODO.png">';
+    document.getElementById('only_kappa').parentElement.addEventListener('click', enable_kappa);
     document.getElementById('globaldiv').style.setProperty("text-decoration", "none");
     document.getElementById('globaldiv').style.setProperty("color", "#000");
   }
