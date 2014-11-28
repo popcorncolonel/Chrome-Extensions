@@ -101,9 +101,11 @@ function replace_text(element) {
         var split = value.split(/\b/);
         var len = split.length;
         var buffer = '';
+        var found = false;
         for (var i=0; i < len; i++) {
             word = split[i];
             if (word in emote_dict) {
+                found = true;
                 value = value.replace(word, '<img src="http:'+emote_dict[word]['url']+'">');
                 img = document.createElement('img');
                 img.src = 'http:'+emote_dict[word]['url'];
@@ -113,17 +115,22 @@ function replace_text(element) {
                 parent_element.insertBefore(img, element);
             } else {
                 buffer += word;
-                if (i == len-1 && buffer != element.nodeValue) {
-                    txt = document.createTextNode(word);
-                    parent_element.insertBefore(txt, element);
-                    element.nodeValue = '';
+                if (i == len-1) {
+                    if (buffer != element.nodeValue) {
+                        txt = document.createTextNode(buffer);
+                        parent_element.insertBefore(txt, element);
+                        element.nodeValue = '';
+                    }
                 }
             }
         }
     } else {
         return;
     }
-    //element.nodeValue = value;
+    //if we're at the end
+    if (buffer == '') {
+        element.nodeValue = '';
+    }
 }
 
 function dfs(element) {
