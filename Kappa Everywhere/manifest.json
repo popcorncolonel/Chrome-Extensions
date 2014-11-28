@@ -8,8 +8,12 @@
   "content_scripts": [{
       "js": ["contentscript.js"],
       "run_at": "document_end",
-      "matches": ["*"]
+      "matches": ["http://*/", "https://*/"]
   }],
+
+  "permissions": [
+    "storage"
+  ],
 
   "icons": { 
       "16": "images/icon16.png",
@@ -18,8 +22,8 @@
   },
 
   "permissions": [
-    "storage"
+    "storage", "http://*/", "https://*/"
   ],
 
-  "options_page": "options.html",
+  "options_page": "options.html"
 }

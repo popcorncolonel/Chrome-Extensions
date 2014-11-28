@@ -3,6 +3,7 @@
 //TODO: recursive screenshot of the extension page as the first screenshot.
 //TODO: show screenshots of it working in hitbox chat lol (second screenshot)
 //TODO: look up how to concatenate 2 dictionaries easily/quickly
+//TODO: get an icon that's not copywritten
 
 // some default settings
 no_global_emotes = false;
@@ -17,6 +18,7 @@ chrome.storage.sync.get({
         only_kappa: false
         no_sub_emotes: true,
     },function(items) {
+        console.log("WHAT LOADED?");
         no_global_emotes = items.no_sub_emotes;
         only_kappa = items.only_kappa;
         no_sub_emotes = items.no_sub_emotes;
@@ -27,7 +29,7 @@ chrome.storage.sync.get({
 );
 
 
-//returns a hash table of emotes and paired image URLs (of the form [(string * string), ...]
+//returns a hash table of emotes and paired image URLs (of the form [(string * {'url', ...}), ...]
 function get_emotes() {
     //"if there's no cached data" "or the data is a week old" "or if i goddamn tell you to remotely"
     var xhr = new XMLHttpRequest();
@@ -35,7 +37,7 @@ function get_emotes() {
     //get the global emotes
     if (!no_global_emotes) {
         if (only_kappa) {
-            return {'Kappa':'http://TODO.com'}; //TODO: replace http://TODO.com with url to kappa image
+            return {'Kappa':'http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'}; //TODO: replace http://TODO.com with url to kappa image
         }
         xhr.open('http://twitchemotes.com/global.json');
         xhr.send();
@@ -92,7 +94,7 @@ function replace_text(element) {
     var value = element.nodeValue;
     for (var word in value.split(/\b/)) {
         if (word in emote_dict) {
-            value = value.replace(word, '<img src="'+emote_dict[word]+'">');
+            value = value.replace(word, '<img src="http:'+emote_dict[word]['url']+'">');
         }
     }
     element.nodeValue = value;
