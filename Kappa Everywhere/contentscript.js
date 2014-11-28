@@ -97,18 +97,33 @@ function dynamically_replace(evt) {
 function replace_text(element) {
     var value = element.nodeValue;
     if (value) {
+        var parent_element = element.parentElement;
         var split = value.split(/\b/);
         var len = split.length;
+        var buffer = '';
         for (var i=0; i < len; i++) {
             word = split[i];
             if (word in emote_dict) {
                 value = value.replace(word, '<img src="http:'+emote_dict[word]['url']+'">');
+                img = document.createElement('img');
+                img.src = 'http:'+emote_dict[word]['url'];
+                txt = document.createTextNode(buffer);
+                parent_element.insertBefore(txt, element);
+                buffer = '';
+                parent_element.insertBefore(img, element);
+            } else {
+                buffer += word;
+                if (i == len-1 && buffer != element.nodeValue) {
+                    txt = document.createTextNode(word);
+                    parent_element.insertBefore(txt, element);
+                    element.nodeValue = '';
+                }
             }
         }
     } else {
         return;
     }
-    element.nodeValue = value;
+    //element.nodeValue = value;
 }
 
 function dfs(element) {
