@@ -25,7 +25,6 @@ chrome.storage.sync.get({
         no_global_emotes = false;
         no_sub_emotes = true;
         only_kappa = false;
-        document.addEventListener('DOMNodeInserted', dynamically_replace, false);
         emote_dict = get_emotes();
     }
 );
@@ -52,11 +51,9 @@ function get_emotes() {
                     xhr.send();
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState == 4) {
-                            emote_list = JSON.parse(xhr.responseText);
-                            for (var emote_d in emote_list) { //there's gotta be a one liner for this
-                                for (var key in emote_d) {
-                                    emote_obj[key] = emote_d[key];
-                                }
+                            emote_d = JSON.parse(xhr.responseText);
+                            for (var key in emote_d) {
+                                emote_obj[key] = emote_d[key];
                             }
                             return emote_obj;
                         }
@@ -64,6 +61,7 @@ function get_emotes() {
                 } else {
                     emote_dict = emote_obj;
                     dfs(document.body);
+                    document.addEventListener('DOMNodeInserted', dynamically_replace, false);
                     return emote_obj;
                 }
             }
@@ -82,7 +80,7 @@ function get_emotes() {
         console.log('returning nothing.');
         return {};
     }
-    //"else, get it from some sort of cache"(?) <- chrome storage api? limits and size
+    //"else, get it from some sort of cache" <- chrome storage api? limits and size and type (can dicts be values? do i need to json string it?)
 }
 
 function dynamically_replace(evt) {
@@ -104,9 +102,10 @@ function replace_text(element) {
         var found = false;
         for (var i=0; i < len; i++) {
             word = split[i];
-            if (word in emote_dict) {
+            if (emote_dict.hasOwnProperty(word)) {
                 found = true;
-                value = value.replace(word, '<img src="http:'+emote_dict[word]['url']+'">');
+                console.log(word);
+                value = value.replace(word, '<img alt="'+word+'" src="http:'+emote_dict[word]['url']+'">');
                 img = document.createElement('img');
                 img.src = 'http:'+emote_dict[word]['url'];
                 txt = document.createTextNode(buffer);

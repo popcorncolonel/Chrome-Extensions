@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "Kappa Everywhere",
-  "description": "Replaces matching on all websites with Twitch emotes.",
+  "name": "Kappa Everywhere - Global Twitch Emotes",
+  "description": "Replaces Twitch emote text with the actual emotes on all websites",
   "version": "1.0.0",
 
   "content_scripts": [{
