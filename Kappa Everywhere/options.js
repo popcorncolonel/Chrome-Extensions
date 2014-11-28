@@ -37,16 +37,15 @@ document.getElementById('begging').addEventListener('mouseout', function () {
 //i.e.: if someone clicks "do not replace global emotes", it unchecks and disables the "only filter kappa" option
 function reset_buttons() {
   var no_global_emotes = document.getElementById('no_global_emotes');
-  var only_kappa = document.getElementById('only_kappa');
   var no_sub_emotes = document.getElementById('no_sub_emotes');
+  var only_kappa = document.getElementById('only_kappa');
   if (no_global_emotes.checked || no_sub_emotes.checked) {
-    console.log(only_kappa.parentElement);
     document.getElementById('only_kappa').parentElement.innerHTML = '<input id="only_kappa" type="checkbox">Only draw Kappa';
     document.getElementById('only_kappa').parentElement.addEventListener('click', toggle_kappa);
     document.getElementById('globaldiv').style.setProperty("text-decoration", "line-through");
     document.getElementById('globaldiv').style.setProperty("color", "#777");
   } else {
-    only_kappa.parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="TODO.png">';
+    only_kappa.parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png">';
     document.getElementById('only_kappa').parentElement.addEventListener('click', toggle_kappa);
     document.getElementById('globaldiv').style.setProperty("text-decoration", "none");
     document.getElementById('globaldiv').style.setProperty("color", "#000");
@@ -69,16 +68,17 @@ function fade(element) {
 
 //saves the options using the chrome storage API - happens each click
 function save_options() {
-  var only_kappa = document.getElementById('only_kappa');
   var no_global_emotes = document.getElementById('no_global_emotes');
   var no_sub_emotes = document.getElementById('no_sub_emotes');
+  var only_kappa = document.getElementById('only_kappa');
 
   chrome.storage.sync.set({
     no_global_emotes: no_global_emotes.checked,
-    only_kappa: only_kappa.checked,
     no_sub_emotes: no_sub_emotes.checked,
+      only_kappa: only_kappa.checked,
   }, function() {
     // Draw "Saved!" to let user know options were saved.
+    console.log(no_global_emotes);
     var stats = document.getElementById('saved');
     stats.style.opacity = 1;
     stats.style.display = "inline";
@@ -94,8 +94,11 @@ function restore_options() {
     no_sub_emotes: true,
   }, function(items) {
       document.getElementById('no_global_emotes').checked = items.no_global_emotes;
-      document.getElementById('only_kappa').checked = items.only_kappa;
       document.getElementById('no_sub_emotes').checked = items.no_sub_emotes;
+      document.getElementById('only_kappa').checked = items.only_kappa;
+      console.log(items.no_global_emotes)
+      console.log(items.no_sub_emotes)
+      console.log(items.only_kappa)
   });
 }
 
@@ -110,7 +113,7 @@ function toggle_kappa() {
     //turn on the option
     document.getElementById('no_sub_emotes').checked = false;
     document.getElementById('no_global_emotes').checked = false;
-    document.getElementById('only_kappa').parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="TODO.png">';
+    document.getElementById('only_kappa').parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png">';
     document.getElementById('only_kappa').parentElement.addEventListener('click', toggle_kappa);
     document.getElementById('globaldiv').style.setProperty("text-decoration", "none");
     document.getElementById('globaldiv').style.setProperty("color", "#000");

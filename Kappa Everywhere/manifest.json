@@ -8,7 +8,7 @@
   "content_scripts": [{
       "js": ["contentscript.js"],
       "run_at": "document_end",
-      "matches": ["http://*/", "https://*/"]
+      "matches": ["*://*/*"]
   }],
 
   "permissions": [
@@ -20,10 +20,6 @@
       "48": "images/icon48.png",
       "128": "images/icon128.png" 
   },
-
-  "permissions": [
-    "storage", "http://*/", "https://*/"
-  ],
 
   "options_page": "options.html"
 }
