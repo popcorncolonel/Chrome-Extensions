@@ -1,7 +1,4 @@
 
-//TODO: recursive screenshot of the extension page as the first screenshot.
-//TODO: show screenshots of it working in hitbox chat lol (second screenshot)
-//TODO: mention ReChat in the description (screenshot?)
 //TODO: cache emotes, only retrive new emotes from the server when the cached ones are a day(?) old
 //TODO: get an icon that's not copywritten? if twitch mentions it. i'm not making money off this so...
 
@@ -45,7 +42,7 @@ function replace_words() {
     if (only_kappa) {
         get_kappa(callback);
     }
-    //"else, get it from some sort of cache" <- chrome storage api? limits and size and type (can dicts be values? do i need to json string it?)
+    //"else, get it from some sort of cache" <- chrome storage api? limits and size and type (can dicts be values? do i need to json stringify it? Will that fit in chrome storage?)
 }
 
 //sub "emote" names to ignore
@@ -120,7 +117,7 @@ function get_kappa(callback) {
 function dynamically_replace(evt) {
     var element = evt.target;
 
-    //AKA, ignore twitch chat lines
+    //ignore twitch chat lines
     if (element && (!element.className || element.className.indexOf('chat-line') == -1)) {
         dfs(element);
     }
