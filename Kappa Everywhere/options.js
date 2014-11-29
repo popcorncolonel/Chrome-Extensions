@@ -1,55 +1,21 @@
 /* TODO */
-//(?)
+//(maybe)
 // dynamically create a lot of sub-checkboxes for specific global emotes
 // dynamically create a lot of sub-checkboxes for specific sub emotes
 
 // ids of things that, when clicked, will save the settings in chrome storage.
 var idlist = [
-    'no_global_emotes',
-    'no_sub_emotes',
+    'all',
+    'only_globals',
+    'only_subs',
     'only_kappa',
 ];
 
 // startup stuff
 document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('only_kappa').addEventListener('click', toggle_kappa);
-document.getElementById('no_sub_emotes').addEventListener('click', reset_buttons);
-document.getElementById('no_global_emotes').addEventListener('click', reset_buttons);
 
 for (var i=0; i < idlist.length; i++) {
     document.getElementById(idlist[i]).addEventListener('click', save_options);
-}
-
-// footer stuff
-document.getElementById('begging').addEventListener('mouseover', function() {
-    var p = document.createElement('P');
-    p.id = "annoyingtext";
-    p.style = "font-size:80%;color:444444;";
-    p.innerHTML = "Dogecoin donation address:";
-    document.getElementById('begging').insertBefore(p, document.getElementById('begging').firstChild);
-});
-document.getElementById('begging').addEventListener('mouseout', function () {
-    var p = document.getElementById('annoyingtext')
-    p.parentNode.removeChild(p);
-});
-
-//handles dependant checkbox interaction
-//i.e.: if someone clicks "do not replace global emotes", it unchecks and disables the "only filter kappa" option
-function reset_buttons() {
-  var no_global_emotes = document.getElementById('no_global_emotes');
-  var no_sub_emotes = document.getElementById('no_sub_emotes');
-  var only_kappa = document.getElementById('only_kappa');
-  if (no_global_emotes.checked || no_sub_emotes.checked) {
-    document.getElementById('only_kappa').parentElement.innerHTML = '<input id="only_kappa" type="checkbox">Only draw Kappa';
-    document.getElementById('only_kappa').parentElement.addEventListener('click', toggle_kappa);
-    document.getElementById('globaldiv').style.setProperty("text-decoration", "line-through");
-    document.getElementById('globaldiv').style.setProperty("color", "#777");
-  } else {
-    only_kappa.parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png">';
-    document.getElementById('only_kappa').parentElement.addEventListener('click', toggle_kappa);
-    document.getElementById('globaldiv').style.setProperty("text-decoration", "none");
-    document.getElementById('globaldiv').style.setProperty("color", "#000");
-  }
 }
 
 //styling function
@@ -68,54 +34,50 @@ function fade(element) {
 
 //saves the options using the chrome storage API - happens each click
 function save_options() {
-  var no_global_emotes = document.getElementById('no_global_emotes');
-  var no_sub_emotes = document.getElementById('no_sub_emotes');
-  var only_kappa = document.getElementById('only_kappa');
+    var all = document.getElementById('all');
+    var only_globals = document.getElementById('only_globals');
+    var only_subs = document.getElementById('only_subs');
+    var only_kappa = document.getElementById('only_kappa');
 
-  chrome.storage.sync.set({
-    no_global_emotes: no_global_emotes.checked,
-    no_sub_emotes: no_sub_emotes.checked,
-      only_kappa: only_kappa.checked,
-  }, function() {
-    // Draw "Saved!" to let user know options were saved.
-    console.log(no_global_emotes);
-    var stats = document.getElementById('saved');
-    stats.style.opacity = 1;
-    stats.style.display = "inline";
-    setTimeout(function() { fade(stats); }, 400);
-  });
+    chrome.storage.sync.set({
+        all: all.checked,
+        only_globals: only_globals.checked,
+        only_subs: only_subs.checked,
+        only_kappa: only_kappa.checked,
+    }, function() {
+        // Draw "Saved!" to let user know options were saved.
+        var stats = document.getElementById('saved');
+        stats.style.opacity = 1;
+        stats.style.display = "inline";
+        setTimeout(function() { fade(stats); }, 400);
+    });
 }
 
 // Restores checkbox state using the preferences stored in chrome.storage.
 function restore_options() {
   chrome.storage.sync.get({
-    no_global_emotes: false, //defaults
-    only_kappa: false,
-    no_sub_emotes: true,
+      all: false,
+      only_globals: true,
+      only_kappa: false,
+      only_subs: false,
   }, function(items) {
-      document.getElementById('no_global_emotes').checked = items.no_global_emotes;
-      document.getElementById('no_sub_emotes').checked = items.no_sub_emotes;
+      document.getElementById('all').checked = items.all;
+      document.getElementById('only_globals').checked = items.only_globals;
+      document.getElementById('only_subs').checked = items.only_subs;
       document.getElementById('only_kappa').checked = items.only_kappa;
-      console.log(items.no_global_emotes)
-      console.log(items.no_sub_emotes)
-      console.log(items.only_kappa)
   });
 }
 
-//oh no this is so unreadable
-//toggles the "only kappa" option
-function toggle_kappa() {
-    if (!document.getElementById('only_kappa').checked) { //reset to original
-        document.getElementById('only_kappa').parentElement.innerHTML = '<input id="only_kappa" type="checkbox">Only draw Kappa';
-        document.getElementById('only_kappa').parentElement.addEventListener('click', toggle_kappa);
-        return;
-    }
-    //turn on the option
-    document.getElementById('no_sub_emotes').checked = false;
-    document.getElementById('no_global_emotes').checked = false;
-    document.getElementById('only_kappa').parentElement.innerHTML = '<input id="only_kappa" type="checkbox" checked>Only draw <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png">';
-    document.getElementById('only_kappa').parentElement.addEventListener('click', toggle_kappa);
-    document.getElementById('globaldiv').style.setProperty("text-decoration", "none");
-    document.getElementById('globaldiv').style.setProperty("color", "#000");
-}
+// footer stuff
+document.getElementById('begging').addEventListener('mouseover', function() {
+    var p = document.createElement('P');
+    p.id = "annoyingtext";
+    p.style = "font-size:80%;color:444444;";
+    p.innerHTML = "Dogecoin donation address:";
+    document.getElementById('begging').insertBefore(p, document.getElementById('begging').firstChild);
+});
+document.getElementById('begging').addEventListener('mouseout', function () {
+    var p = document.getElementById('annoyingtext')
+    p.parentNode.removeChild(p);
+});
 

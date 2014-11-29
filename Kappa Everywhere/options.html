@@ -22,13 +22,17 @@
     <!-- checkboxes - the true options -->
     <div id="checkboxes">
         <h2> Options </h2>
-        <label><input id="no_global_emotes" type="checkbox">Do not draw global emotes</label> 
+        <form>
+        <label><input id="all" type="radio" name="options">All emotes</label> 
         <br>
-        <label><input id="no_sub_emotes" type="checkbox" checked>Do not draw sub emotes</label> 
+        <label><input id="only_globals" type="radio"  name="options"checked>Only global emotes</label> 
+        <br>
+        <label><input id="only_subs" type="radio" name="options">Only sub emotes</label> 
 
         <div id="globaldiv">
-          <label><input id="only_kappa" type="checkbox">Only draw Kappa</label> 
+          <label><input id="only_kappa" type="radio" name="options">Only <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png"></label> 
         </div>
+        </form>
     </div>
 
     <!-- footer, begging, whatnot -->
