@@ -38,6 +38,7 @@ function save_options() {
     var only_globals = document.getElementById('only_globals');
     var only_subs = document.getElementById('only_subs');
     var only_kappa = document.getElementById('only_kappa');
+    var callback = function(){};
 
     chrome.storage.sync.set({
         all: all.checked,

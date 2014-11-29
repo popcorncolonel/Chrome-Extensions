@@ -1,12 +1,12 @@
 
-//TODO: cache emotes, only retrive new emotes from the server when the cached ones are a day(?) old
 //TODO: recursive screenshot of the extension page as the first screenshot.
 //TODO: show screenshots of it working in hitbox chat lol (second screenshot)
 //TODO: mention ReChat in the description (screenshot?)
-//TODO: get an icon that's not copywritten? if twitch mentions it. i'm not making money off this so
+//TODO: cache emotes, only retrive new emotes from the server when the cached ones are a day(?) old
+//TODO: get an icon that's not copywritten? if twitch mentions it. i'm not making money off this so...
 
 // some default settings
-all = true;
+all = false;
 only_globals = true;
 only_subs = false;
 only_kappa = false;
@@ -15,90 +15,106 @@ emote_dict = {};
 
 // get settings -> run the program
 chrome.storage.sync.get({
-        all: false,
-        only_globals: true,
-        only_subs: false,
-        only_kappa: false,
-    },function(items) {
-        all = items.all;
-        only_globals = items.only_globals;
-        only_subs = items.only_subs;
-        only_kappa = items.only_kappa;
-        replace_words();
+    all: false,
+    only_globals: true,
+    only_subs: false,
+    only_kappa: false,
+},function(items) {
+    all = items.all;
+    only_globals = items.only_globals;
+    only_subs = items.only_subs;
+    only_kappa = items.only_kappa;
+    replace_words();
+});
+
+function replace_words() {
+    //"if there's no cached data" "or the data is a week old" "or if i goddamn tell you to remotely"
+    function callback() {
+        dfs(document.body);
+        document.addEventListener('DOMNodeInserted', dynamically_replace, false);
     }
-);
+    if (all) {
+        get_all(callback);
+    }
+    if (only_globals) {
+        get_globals(callback);
+    }
+    if (only_subs) {
+        get_subs(callback);
+    }
+    if (only_kappa) {
+        get_kappa(callback);
+    }
+    //"else, get it from some sort of cache" <- chrome storage api? limits and size and type (can dicts be values? do i need to json string it?)
+}
 
 //sub "emote" names to ignore
 ignorelist = ['0']
 
-function replace_words() {
-    //"if there's no cached data" "or the data is a week old" "or if i goddamn tell you to remotely"
-    var xhr = new XMLHttpRequest();
-    if (all) {
-        xhr.open('GET', 'http://twitchemotes.com/global.json');
-        xhr.send();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                emote_dict = JSON.parse(xhr.responseText);
-                //get the sub emotes as well as the global emotes
-                xhr.open('GET', 'http://twitchemotes.com/subscriber.json');
-                xhr.send();
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4) {
-                        emote_d = JSON.parse(xhr.responseText);
-                        for (var key in emote_d) {
-                            if (ignorelist.indexOf(key) == -1) {
-                                for (var key2 in emote_d[key]['emotes']) {
-                                    emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
-                                }
+xhr = new XMLHttpRequest();
+
+function get_all(callback) {
+    xhr.open('GET', 'http://twitchemotes.com/global.json');
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            emote_dict = JSON.parse(xhr.responseText);
+            //get the sub emotes as well as the global emotes
+            xhr.open('GET', 'http://twitchemotes.com/subscriber.json');
+            xhr.send();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    emote_d = JSON.parse(xhr.responseText);
+                    for (var key in emote_d) {
+                        if (ignorelist.indexOf(key) == -1) {
+                            for (var key2 in emote_d[key]['emotes']) {
+                                emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
                             }
                         }
-                        dfs(document.body);
-                        document.addEventListener('DOMNodeInserted', dynamically_replace, false);
                     }
+                    callback();
+                    return emote_dict;
                 }
             }
         }
     }
+}
 
-    if (only_globals) {
-        xhr.open('GET', 'http://twitchemotes.com/global.json');
-        xhr.send();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                emote_dict = JSON.parse(xhr.responseText);
-                dfs(document.body);
-                document.addEventListener('DOMNodeInserted', dynamically_replace, false);
-            }
+function get_globals(callback) {
+    xhr.open('GET', 'http://twitchemotes.com/global.json');
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            emote_dict = JSON.parse(xhr.responseText);
+            callback();
+            return emote_dict;
         }
     }
+}
 
-    if (only_subs) {
-        xhr.open('GET', 'http://twitchemotes.com/subscriber.json');
-        xhr.send();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                emote_d = JSON.parse(xhr.responseText);
-                for (var key in emote_d) {
-                    if (ignorelist.indexOf(key) == -1) {
-                        for (var key2 in emote_d[key]['emotes']) {
-                            emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
-                        }
+function get_subs(callback) {
+    xhr.open('GET', 'http://twitchemotes.com/subscriber.json');
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            emote_d = JSON.parse(xhr.responseText);
+            for (var key in emote_d) {
+                if (ignorelist.indexOf(key) == -1) {
+                    for (var key2 in emote_d[key]['emotes']) {
+                        emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
                     }
                 }
-                console.log(emote_dict);
-                dfs(document.body);
-                document.addEventListener('DOMNodeInserted', dynamically_replace, false);
             }
+            callback();
+            return emote_dict;
         }
     }
+}
 
-    if (only_kappa) {
-        emote_dict = {'Kappa':'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
-        dfs(document.body);
-        document.addEventListener('DOMNodeInserted', dynamically_replace, false);
-    }
-    //"else, get it from some sort of cache" <- chrome storage api? limits and size and type (can dicts be values? do i need to json string it?)
+function get_kappa(callback) {
+    emote_dict = {'Kappa':'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
+    callback();
+    return emote_dict;
 }
 
 function dynamically_replace(evt) {

@@ -3,7 +3,7 @@
 
   "name": "Kappa Everywhere - Global Twitch Emotes",
   "description": "Replaces Twitch emote text with the actual emotes on all websites",
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "content_scripts": [{
       "js": ["contentscript.js"],
