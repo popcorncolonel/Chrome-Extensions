@@ -143,13 +143,13 @@ function replace_text(element) {
             word = split[i];
             if (emote_dict.hasOwnProperty(word)) {
                 found = true;
-                //value = value.replace(word, '<img alt="'+word+'" src="http:'+emote_dict[word]['url']+'">');
                 img = document.createElement('img');
                 img.src = emote_dict[word]['url'];
+                img.alt = word;
                 txt = document.createTextNode(buffer);
                 parent_element.insertBefore(txt, element);
-                buffer = '';
                 parent_element.insertBefore(img, element);
+                buffer = '';
             } else {
                 buffer += word;
                 if (i == len-1) {
