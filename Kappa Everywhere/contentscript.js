@@ -118,7 +118,10 @@ function dynamically_replace(evt) {
     var element = evt.target;
 
     //ignore twitch chat lines
-    if (element && (!element.className || element.className.indexOf('chat-line') == -1)) {
+    if (element && (!element.className || 
+                    // if it's not a popup bubble on twitch chat (BTTV)
+                    (element.className.indexOf('tipsy') == -1 && location.hostname.indexOf('twitch.tv') == -1) ||
+                     element.className.indexOf('chat-line') == -1)) {
         dfs(element);
     }
 }
@@ -143,6 +146,7 @@ function replace_text(element) {
                 img = document.createElement('img');
                 img.src = emote_dict[word]['url'];
                 img.alt = word;
+                img.style.display = 'inline';
                 txt = document.createTextNode(buffer);
                 parent_element.insertBefore(txt, element);
                 parent_element.insertBefore(img, element);
