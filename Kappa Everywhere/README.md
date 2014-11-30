@@ -5,8 +5,9 @@ Optionally use only global emotes, sub emotes, both global+sub emotes, or just u
 If you find any bugs, let me know! popcorncolonel@gmail.com
 
 Screenshots:  
-![Screenshot 1](images/ss1)
+![Screenshot 1](images/ss1.png)
 
-![Screenshot 2](images/ss2)
+![Screenshot 2](images/ss2.png)
 
-![Screenshot 3](images/ss3)
+![Screenshot 3](images/ss3.png)
+
