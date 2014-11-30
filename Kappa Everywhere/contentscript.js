@@ -146,6 +146,7 @@ function replace_text(element) {
             if (emote_dict.hasOwnProperty(word)) {
                 found = true;
                 img = document.createElement('img');
+                //img.src = 'http:' + emote_dict[word]['url'];
                 img.src = emote_dict[word]['url'];
                 img.alt = word;
                 img.style.display = 'inline';
