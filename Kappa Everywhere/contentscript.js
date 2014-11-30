@@ -117,11 +117,13 @@ function get_kappa(callback) {
 function dynamically_replace(evt) {
     var element = evt.target;
 
-    //ignore twitch chat lines
+    //OH GOD HOW DO I MAKE BOOLEAN LOGIC READABLE ON JAVASCRIPT PLEASE TO HELP
     if (element && (!element.className || 
                     // if it's not a popup bubble on twitch chat (BTTV)
-                    (element.className.indexOf('tipsy') == -1 && location.hostname.indexOf('twitch.tv') == -1) ||
-                     element.className.indexOf('chat-line') == -1)) {
+                    ((element.className.indexOf('tipsy') == -1 || location.hostname.indexOf('twitch.tv') == -1) &&
+                    //ignore twitch chat lines
+                     element.className.indexOf('chat-line') == -1)
+                )) {
         dfs(element);
     }
 }
