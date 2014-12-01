@@ -7,7 +7,7 @@ all = false;
 only_globals = true;
 only_subs = false;
 only_kappa = false;
-filter_text = '';
+filters = [];
 
 emote_dict = {};
 
@@ -23,7 +23,13 @@ chrome.storage.sync.get({
     only_globals = items.only_globals;
     only_subs = items.only_subs;
     only_kappa = items.only_kappa;
-    filter_text = items.filter_text.strip();
+    filter_text = items.filter_text;
+    //filter_text = items.filter_text.toLowerCase();
+    filters = filter_text.split(/\W/);
+    filters = filters.map(function(channel) {
+        channel = channel.replace(/\b\W*$/, '').replace(/^\W*\b/, ''); //strip()
+        return channel.toLowerCase();
+    });
     replace_words();
 });
 
@@ -48,9 +54,6 @@ function replace_words() {
     //"else, get it from some sort of cache" <- chrome storage api? limits and size and type (can dicts be values? do i need to json stringify it? Will that fit in chrome storage?)
 }
 
-//sub "emote" names to ignore
-ignorelist = ['0']
-
 xhr = new XMLHttpRequest();
 
 function get_all(callback) {
@@ -65,14 +68,14 @@ function get_all(callback) {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4) {
                     emote_d = JSON.parse(xhr.responseText);
-                    for (var key in emote_d) {
-                        if (ignorelist.indexOf(key) == -1) {
-                            for (var key2 in emote_d[key]['emotes']) {
-                                emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
+                    for (var channel_name in emote_d) {
+                        if (filters == [] || filters.indexOf(channel_name) > -1) {
+                            for (var key2 in emote_d[channel_name]['emotes']) {
+                                emote_dict[key2] = {url:emote_d[channel_name]['emotes'][key2]};
                             }
                         }
                     }
-                    callback();
+                    if (callback) callback();
                     return emote_dict;
                 }
             }
@@ -86,7 +89,7 @@ function get_globals(callback) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             emote_dict = JSON.parse(xhr.responseText);
-            callback();
+            if (callback) callback();
             return emote_dict;
         }
     }
@@ -98,14 +101,14 @@ function get_subs(callback) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             emote_d = JSON.parse(xhr.responseText);
-            for (var key in emote_d) {
-                if (ignorelist.indexOf(key) == -1) {
-                    for (var key2 in emote_d[key]['emotes']) {
-                        emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
+            for (var channel_name in emote_d) {
+                if (filters == [] || filters.indexOf(channel_name) > -1) {
+                    for (var key2 in emote_d[channel_name]['emotes']) {
+                        emote_dict[key2] = {url:emote_d[channel_name]['emotes'][key2]};
                     }
                 }
             }
-            callback();
+            if (callback) callback();
             return emote_dict;
         }
     }
@@ -113,7 +116,7 @@ function get_subs(callback) {
 
 function get_kappa(callback) {
     emote_dict = {'Kappa':'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
-    callback();
+    if (callback) callback();
     return emote_dict;
 }
 
