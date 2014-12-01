@@ -20,20 +20,30 @@
 <body>
 
     <!-- checkboxes - the true options -->
+    <h2> Options </h2>
     <div id="checkboxes">
-        <h2> Options </h2>
         <form>
         <label><input id="all" type="radio" name="options">All emotes</label> 
+        <span id='after_all'></span>
         <br>
-        <label><input id="only_globals" type="radio"  name="options"checked>Only global emotes</label> 
+
+        <label><input id="only_globals" type="radio" name="options" checked>Only global emotes</label> 
         <br>
+
         <label><input id="only_subs" type="radio" name="options">Only sub emotes</label> 
+        <span id='after_subs'></span>
 
         <div id="globaldiv">
           <label><input id="only_kappa" type="radio" name="options">Only <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png"></label> 
         </div>
         </form>
     </div>
+    <h4>Sub emote filters</h4> 
+    <span> Write Twitch channels below to use sub emotes for (separated by new lines)</span>
+    <p>(Leave blank to use all sub emotes)</p>
+    <textarea id="sub_filter" style="width:300px; height:150px;">
+    </textarea>
+    <br>
 
     <!-- footer, begging, whatnot -->
     <div id="saved" style="display:none; font-size:100%; color:#ff0000;">Saved!</div>

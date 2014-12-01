@@ -7,6 +7,7 @@ all = false;
 only_globals = true;
 only_subs = false;
 only_kappa = false;
+filter_text = '';
 
 emote_dict = {};
 
@@ -16,11 +17,13 @@ chrome.storage.sync.get({
     only_globals: true,
     only_subs: false,
     only_kappa: false,
+    filter_text: '',
 },function(items) {
     all = items.all;
     only_globals = items.only_globals;
     only_subs = items.only_subs;
     only_kappa = items.only_kappa;
+    filter_text = items.filter_text.strip();
     replace_words();
 });
 
