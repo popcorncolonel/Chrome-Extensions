@@ -116,6 +116,11 @@ function get_kappa(callback) {
 
 function dynamically_replace(evt) {
     var element = evt.target;
+    //twitter hack solution
+    if (element && element.tagName && element.tagName.toLowerCase() == 'div') {
+        if (element.parentElement.className.indexOf('normalizer') > -1)
+            return;
+    }
 
     //OH GOD HOW DO I MAKE BOOLEAN LOGIC READABLE ON JAVASCRIPT PLEASE TO HELP
     if (element && (!element.className || 

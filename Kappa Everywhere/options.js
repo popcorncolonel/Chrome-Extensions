@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', restore_options);
 for (var i=0; i < idlist.length; i++) {
     document.getElementById(idlist[i]).addEventListener('click', save_options);
 }
-document.getElementById('sub_filter').addEventListener('keyup', save_options);
+//document.getElementById('sub_filter').addEventListener('keyup', save_options);
 
 //styling function
 function fade(element) {
@@ -40,15 +40,15 @@ function save_options() {
     var only_subs = document.getElementById('only_subs');
     var only_kappa = document.getElementById('only_kappa');
 
-    var sub_filter = document.getElementById('sub_filter');
-    var filter_text = sub_filter.value;
+    //var sub_filter = document.getElementById('sub_filter');
+    //var filter_text = sub_filter.value;
 
     chrome.storage.sync.set({
         all: all.checked,
         only_globals: only_globals.checked,
         only_subs: only_subs.checked,
         only_kappa: only_kappa.checked,
-        filter_text: filter_text,
+        //filter_text: filter_text,
     }, function() {
         // Draw "Saved!" to let user know options were saved.
         var stats = document.getElementById('saved');
@@ -65,13 +65,13 @@ function restore_options() {
       only_globals: true,
       only_kappa: false,
       only_subs: false,
-      filter_text: '',
+      //filter_text: '',
   }, function(items) {
       document.getElementById('all').checked = items.all;
       document.getElementById('only_globals').checked = items.only_globals;
       document.getElementById('only_subs').checked = items.only_subs;
       document.getElementById('only_kappa').checked = items.only_kappa;
-      document.getElementById('sub_filter').value = items.filter_text;
+      //document.getElementById('sub_filter').value = items.filter_text;
   });
 }
 
