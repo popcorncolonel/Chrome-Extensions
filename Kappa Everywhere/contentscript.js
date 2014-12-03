@@ -46,7 +46,7 @@ function replace_words() {
 }
 
 //sub "emote" names to ignore
-ignorelist = ['Win', 'Lose', 'GG', 'Kill']
+ignorelist = ['Win', 'Lose', 'GG', 'Kill', 'IMBA', 'CA', 'US', 'Pylon', 'Gosu', 'Fighting', 'Cheese', 'TW', 'KR','SG','NL','JP','HK']
 
 xhr = new XMLHttpRequest();
 
