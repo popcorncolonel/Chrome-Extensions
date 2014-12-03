@@ -46,7 +46,7 @@ function replace_words() {
 }
 
 //sub "emote" names to ignore
-ignorelist = ['0']
+ignorelist = ['Win', 'Lose', 'GG', 'Kill']
 
 xhr = new XMLHttpRequest();
 
@@ -63,8 +63,8 @@ function get_all(callback) {
                 if (xhr.readyState == 4) {
                     emote_d = JSON.parse(xhr.responseText);
                     for (var key in emote_d) {
-                        if (ignorelist.indexOf(key) == -1) {
-                            for (var key2 in emote_d[key]['emotes']) {
+                        for (var key2 in emote_d[key]['emotes']) {
+                            if (ignorelist.indexOf(key2) == -1) {
                                 emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
                             }
                         }
@@ -96,8 +96,8 @@ function get_subs(callback) {
         if (xhr.readyState == 4) {
             emote_d = JSON.parse(xhr.responseText);
             for (var key in emote_d) {
-                if (ignorelist.indexOf(key) == -1) {
-                    for (var key2 in emote_d[key]['emotes']) {
+                for (var key2 in emote_d[key]['emotes']) {
+                    if (ignorelist.indexOf(key) == -1) {
                         emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
                     }
                 }
@@ -153,6 +153,7 @@ function replace_text(element) {
                 img = document.createElement('img');
                 //img.src = 'http:' + emote_dict[word]['url'];
                 img.src = emote_dict[word]['url'];
+                img.title = word;
                 img.alt = word;
                 img.style.display = 'inline';
                 txt = document.createTextNode(buffer);
