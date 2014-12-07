@@ -47,7 +47,7 @@ function replace_words() {
 }
 
 //sub "emote" names to ignore
-ignorelist = ['Win', 'Lose', 'GG', 'Kill', 'IMBA', 'CA', 'US', 'Pylon', 'Gosu', 'Fighting', 'Cheese', 'TW', 'KR','SG','NL','JP','HK','double','triple','SNIPE']
+ignorelist = ['Win', 'Lose', 'GG', 'Kill', 'IMBA', 'CA', 'US', 'Pylon', 'Gosu', 'Fighting', 'Cheese', 'TW', 'KR','SG','NL','JP','HK','double','triple','SNIPE','SK', 'POISON','C9','inverse','Anubis','Fraud','COAST']
 
 xhr = new XMLHttpRequest();
 
@@ -116,21 +116,24 @@ function get_kappa(callback) {
 }
 
 function dynamically_replace(evt) {
-    var element = evt.target;
+    var element2 = evt.target;
     //twitter hack solution
-    if (element && element.tagName && element.tagName.toLowerCase() == 'div') {
-        if (element.parentElement.className.indexOf('normalizer') > -1)
+    if (element2 && element2.tagName && element2.tagName.toLowerCase() == 'div') {
+        if (element2.parentElement.className.indexOf('tweet-box') > -1 || 
+            element2.parentElement.className.indexOf('normalizer') > -1)
             return;
     }
 
     //OH GOD HOW DO I MAKE BOOLEAN LOGIC READABLE ON JAVASCRIPT PLEASE TO HELP
-    if (element && (!element.className || 
+    if (element2 && (!element2.className || 
                     // if it's not a popup bubble on twitch chat (BTTV)
-                    ((element.className.indexOf('tipsy') == -1 || location.hostname.indexOf('twitch.tv') == -1) &&
+                    //maybe the worst code i've ever written? yah. oh well it works lol
+                    ((element2.className && element2.className.indexOf && element2.className.indexOf('tipsy') == -1 || 
+                      (location && location.hostname && location.hostname.indexOf && location.hostname.indexOf('twitch.tv') == -1)) &&
                     //ignore twitch chat lines
-                     element.className.indexOf('chat-line') == -1)
+                     element2.className.indexOf && element2.className.indexOf('chat-line') == -1)
                 )) {
-        dfs(element);
+        dfs(element2);
     }
 }
 
