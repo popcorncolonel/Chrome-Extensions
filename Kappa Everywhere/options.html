@@ -22,20 +22,22 @@
     <!-- checkboxes - the true options -->
     <h2> Options </h2>
     <div id="checkboxes">
-        <form>
-        <label><input id="all" type="radio" name="options">All emotes</label> 
-        <span id='after_all'></span>
-        <br>
-
-        <label><input id="only_globals" type="radio" name="options" checked>Only global emotes</label> 
-        <br>
-
-        <label><input id="only_subs" type="radio" name="options">Only sub emotes</label> 
-        <span id='after_subs'></span>
-
-        <div id="globaldiv">
-          <label><input id="only_kappa" type="radio" name="options">Only <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png"></label> 
+        <form>		
+		<div id="globaldiv">
+          <label><input id="kappa" type="checkbox" name="options">Enable <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png"></label> 
         </div>
+		
+        <label><input id="globals" type="checkbox" name="options" checked>Enable global emotes</label> 
+        <br>
+
+        <label><input id="subs" type="checkbox" name="options">Enable sub emotes</label> 
+        <span id='after_subs'></span>
+		<br>
+		
+		<label><input id="bttv" type="checkbox" name="options">Enable BTTV</label> 
+		<br>
+		
+		<label><input id="masterrace" type="checkbox" name="options">Are you part of the glorious PC Master Race? <img src="http://i.imgur.com/Zp9QNt8.png"></label> 
         </form>
     </div>
     <!-- TODO
