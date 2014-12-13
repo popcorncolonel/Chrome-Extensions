@@ -5,10 +5,10 @@
 
 // ids of things that, when clicked, will save the settings in chrome storage.
 var idlist = [
-    'all',
-    'only_globals',
-    'only_subs',
-    'only_kappa',
+    'globals',
+    'subs',
+    'kappa',
+	'bttv',
 ];
 
 // startup stuff
@@ -35,19 +35,19 @@ function fade(element) {
 
 //saves the options using the chrome storage API - happens each click
 function save_options() {
-    var all = document.getElementById('all');
-    var only_globals = document.getElementById('only_globals');
-    var only_subs = document.getElementById('only_subs');
-    var only_kappa = document.getElementById('only_kappa');
+    var kappa = document.getElementById('kappa');
+    var globals = document.getElementById('globals');
+    var subs = document.getElementById('subs');
+	var bttv = document.getElementById('bttv');
 
     //var sub_filter = document.getElementById('sub_filter');
     //var filter_text = sub_filter.value;
 
     chrome.storage.sync.set({
-        all: all.checked,
-        only_globals: only_globals.checked,
-        only_subs: only_subs.checked,
-        only_kappa: only_kappa.checked,
+        kappa: kappa.checked,
+        globals: globals.checked,
+        subs: subs.checked,
+		bttv: bttv.checked,
         //filter_text: filter_text,
     }, function() {
         // Draw "Saved!" to let user know options were saved.
@@ -61,16 +61,16 @@ function save_options() {
 // Restores checkbox state using the preferences stored in chrome.storage.
 function restore_options() {
   chrome.storage.sync.get({
-      all: false,
-      only_globals: true,
-      only_kappa: false,
-      only_subs: false,
+      kappa: false,
+      globals: true,
+      subs: false,
+	  bttv: false,
       //filter_text: '',
   }, function(items) {
-      document.getElementById('all').checked = items.all;
-      document.getElementById('only_globals').checked = items.only_globals;
-      document.getElementById('only_subs').checked = items.only_subs;
-      document.getElementById('only_kappa').checked = items.only_kappa;
+      document.getElementById('kappa').checked = items.kappa;
+      document.getElementById('globals').checked = items.globals;
+      document.getElementById('subs').checked = items.subs;
+	  document.getElementById('bttv').checked = items.bttv;
       //document.getElementById('sub_filter').value = items.filter_text;
   });
 }

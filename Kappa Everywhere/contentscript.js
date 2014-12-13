@@ -4,115 +4,140 @@
 //TODO: get an icon that's not copywritten? if twitch mentions it. i'm not making money off this so...
 
 // some default settings
-all = false;
-only_globals = true;
-only_subs = false;
-only_kappa = false;
+kappa = false;
+globals = true;
+subs = false;
+bttv = false;
 
-emote_dict = {};
+emote_dict = new Array();
 
 // get settings -> run the program
 chrome.storage.sync.get({
-    all: false,
-    only_globals: true,
-    only_subs: false,
-    only_kappa: false,
+    kappa: false,
+    globals: true,
+    subs: false,
+	bttv: false,
 },function(items) {
-    all = items.all;
-    only_globals = items.only_globals;
-    only_subs = items.only_subs;
-    only_kappa = items.only_kappa;
+    kappa = items.kappa;
+    globals = items.globals;
+    subs = items.subs;
+	bttv = items.bttv;
     replace_words();
 });
 
+//one for each setting; so it doesn't dfs 4 times (dfs is pretty slow for huge webpages)
+loaded1 = false;
+loaded2 = false;
+loaded3 = false;
+loaded4 = false;
+
 function replace_words() {
     //"if there's no cached data" "or the data is a week old" "or if i goddamn tell you to remotely"
-    function callback() {
-        dfs(document.body);
-        document.addEventListener('DOMNodeInserted', dynamically_replace, false);
-    }
-    if (all) {
-        get_all(callback);
-    }
-    if (only_globals) {
-        get_globals(callback);
-    }
-    if (only_subs) {
-        get_subs(callback);
-    }
-    if (only_kappa) {
-        get_kappa(callback);
-    }
+    if (kappa) {
+        get_kappa();
+    } else loaded1 = true;
+
+    if (globals) {
+        get_globals();
+    } else loaded2 = true;
+
+    if (subs) {
+        get_subs();
+    } else loaded3 = true;
+
+	if (bttv) {
+		get_bttv();
+    } else loaded4 = true;
     //"else, get it from some sort of cache" <- chrome storage api? limits and size and type (can dicts be values? do i need to json stringify it? Will that fit in chrome storage?)
 }
 
+/*
 //sub "emote" names to ignore
 ignorelist = ['Win','Lose','GG','Kill','IMBA','CA','US','Pylon','Gosu','Fighting','Cheese','TW','KR','SG','NL','JP','HK','double','triple','SNIPE','SK','POISON','C9','inverse','Anubis','Fraud','COAST','ICEFROG','Ra','Apollo','Roshan','Demon','Zhong','Thor','Dead','facepalm']
 
 xhr = new XMLHttpRequest();
+*/
+function do_dfs(evt) {
+    if (loaded1 && loaded2 && loaded3 && loaded4)
+        dfs(document.body);
+}
+document.addEventListener('replaceWords', do_dfs, false);
+document.addEventListener('DOMNodeInserted', dynamically_replace, false);
 
-function get_all(callback) {
+//ignore unparsable emotes
+disallowedChars = ['\\', ':', '/', '&', "'", '"', '?', '!', '#'];
+
+//sub-channels to ignore
+ignoredChannels = ['agetv1', 'gsl_standard', 'gsl', 'gomexp_2014_season_two', 'gsl_premium',
+                   'canadacup', 'smitegame', 'werster', 'beyondthesummit', 'srkevo1', 'thepremierleague', 'lionheartx10'];
+
+dfsEvent = document.createEvent("Event");
+dfsEvent.initEvent('replaceWords', true, true);
+	
+function containsDisallowedChar(word) {
+	for(dis in disallowedChars)
+		if(word.indexOf(dis) > -1)
+			return true;
+	return false;
+}
+	
+function get_kappa() {
+    emote_dict['Kappa'] = {url:'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
+    loaded1 = true;
+    document.dispatchEvent(dfsEvent);
+    return emote_dict;
+}
+
+function get_globals() {
+	var xhr = new XMLHttpRequest();
     xhr.open('GET', '//twitchemotes.com/global.json');
     xhr.send();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            emote_dict = JSON.parse(xhr.responseText);
-            //get the sub emotes as well as the global emotes
-            xhr.open('GET', '//twitchemotes.com/subscriber.json');
-            xhr.send();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    emote_d = JSON.parse(xhr.responseText);
-                    for (var key in emote_d) {
-                        for (var key2 in emote_d[key]['emotes']) {
-                            if (ignorelist.indexOf(key2) == -1) {
-                                emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
-                            }
-                        }
-                    }
-                    callback();
-                    return emote_dict;
-                }
-            }
-        }
+    xhr.onload = function() {
+		emote_d = JSON.parse(xhr.responseText);
+		for (var key in emote_d) {
+			emote_dict[key] = {url:emote_d[key]['url']};
+		}
+        loaded2 = true;
+		document.dispatchEvent(dfsEvent);
+		return emote_dict;
     }
 }
 
-function get_globals(callback) {
-    xhr.open('GET', '//twitchemotes.com/global.json');
-    xhr.send();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            emote_dict = JSON.parse(xhr.responseText);
-            callback();
-            return emote_dict;
-        }
-    }
-}
-
-function get_subs(callback) {
+function get_subs() {
+	var xhr = new XMLHttpRequest();
     xhr.open('GET', '//twitchemotes.com/subscriber.json');
     xhr.send();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            emote_d = JSON.parse(xhr.responseText);
-            for (var key in emote_d) {
-                for (var key2 in emote_d[key]['emotes']) {
-                    if (ignorelist.indexOf(key) == -1) {
-                        emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
-                    }
-                }
-            }
-            callback();
-            return emote_dict;
-        }
+    xhr.onload = function() {
+		emote_d = JSON.parse(xhr.responseText);
+		for (var key in emote_d) {
+			for (var key2 in emote_d[key]['emotes']) {
+				if (ignoredChannels.indexOf(key.toLowerCase()) == -1) {
+					emote_dict[key2] = {url:emote_d[key]['emotes'][key2], channel:key};
+				}
+			}
+		}
+        loaded3 = true;
+		document.dispatchEvent(dfsEvent);
+		return emote_dict;
     }
 }
 
-function get_kappa(callback) {
-    emote_dict = {'Kappa':'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
-    callback();
-    return emote_dict;
+function get_bttv() {
+	var xhr = new XMLHttpRequest();
+    xhr.open('GET', '//cdn.betterttv.net/emotes/emotes.json');
+    xhr.send();
+    xhr.onload = function() {
+        emote_d = JSON.parse(xhr.responseText);
+		for (var key in emote_d) {
+			var word = emote_d[key]['regex'];
+			if(!containsDisallowedChar(word)) {
+				emote_dict[emote_d[key]['regex']] = {url:emote_d[key]['url']};
+			}
+		}
+        loaded4 = true;
+		document.dispatchEvent(dfsEvent);
+		return emote_dict;
+	}
 }
 
 function dynamically_replace(evt) {
@@ -152,13 +177,14 @@ function replace_text(element) {
         //Write the result to the DOM -> remove "Hey Kappa Kappa Hey Kappa Kappa Hey" from the DOM
         for (var i=0; i < len; i++) {
             word = split[i];
-            if (emote_dict.hasOwnProperty(word)) {
+            if (word in emote_dict && emote_dict[word]['url'] != undefined) {
                 found = true;
                 img = document.createElement('img');
                 //img.src = 'http:' + emote_dict[word]['url'];
                 img.src = emote_dict[word]['url'];
                 img.title = word;
                 img.alt = word;
+				img.setAttribute('channel', emote_dict[word]['channel']); // Useful for debug :)
                 img.style.display = 'inline';
                 txt = document.createTextNode(buffer);
                 parent_element.insertBefore(txt, element);
