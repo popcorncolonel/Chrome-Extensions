@@ -54,12 +54,11 @@ function doDFS(evt) {
 document.addEventListener('replaceWords', doDFS, false);
 document.addEventListener('DOMNodeInserted', dynamically_replace, false);
 
-//emotes to ignore
-ignoreEmotes = ['some'];
+//ignore unparsable emotes
 disallowedChars = ['\\', ':', '/', '&', '\'', '"', '?', '!', '#'];
 
-//sub "emote" names to ignore
-ignorelist = ['Win', 'Lose', 'GG', 'Kill', 'IMBA', 'CA', 'US', 'Pylon', 'Gosu', 'Fighting', 'Cheese', 'TW', 'KR','SG','NL','JP','HK','double','triple','SNIPE','SK', 'POISON','C9','inverse','Anubis','Fraud','COAST','ICEFROG', 'Ra', 'Apollo','Roshan']
+//sub-channels to ignore
+ignoredChannels = ['agetv1', 'gsl_standard', 'gsl', 'gomexp_2014_season_two', 'gsl_premium', 'canadacup', 'smitegame', 'werster', 'beyondthesummit', 'srkevo1', 'thepremierleague', 'lionheartx10'];
 
 dfsEvent = document.createEvent("Event");
 dfsEvent.initEvent('replaceWords', true, true);
@@ -99,8 +98,8 @@ function get_subs() {
 		emote_d = JSON.parse(xhr.responseText);
 		for (var key in emote_d) {
 			for (var key2 in emote_d[key]['emotes']) {
-				if (ignorelist.indexOf(key) == -1) {
-					emote_dict[key2] = {url:emote_d[key]['emotes'][key2]};
+				if (ignoredChannels.indexOf(key.toLowerCase()) == -1) {
+					emote_dict[key2] = {url:emote_d[key]['emotes'][key2], channel:key};
 				}
 			}
 		}
@@ -117,7 +116,7 @@ function get_bttv() {
         emote_d = JSON.parse(xhr.responseText);
 		for (var key in emote_d) {
 			var word = emote_d[key]['regex'];
-			if(!containsDisallowedChar(word) && ignoreEmotes.indexOf(word) == -1) {
+			if(!containsDisallowedChar(word)) {
 				emote_dict[emote_d[key]['regex']] = {url:emote_d[key]['url']};
 			}
 		}
@@ -177,6 +176,7 @@ function replace_text(element) {
                 img.src = emote_dict[word]['url'];
                 img.title = word;
                 img.alt = word;
+				img.setAttribute('channel', emote_dict[word]['channel']); // Useful for debug :)
                 img.style.display = 'inline';
                 txt = document.createTextNode(buffer);
                 parent_element.insertBefore(txt, element);
