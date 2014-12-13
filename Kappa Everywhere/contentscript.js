@@ -6,7 +6,7 @@
 // some default settings
 kappa = false;
 globals = true;
-subs = false;
+subs = true;
 bttv = false;
 
 emote_dict = new Array();
@@ -15,7 +15,7 @@ emote_dict = new Array();
 chrome.storage.sync.get({
     kappa: false,
     globals: true,
-    subs: false,
+    subs: true,
 	bttv: false,
 },function(items) {
     kappa = items.kappa;

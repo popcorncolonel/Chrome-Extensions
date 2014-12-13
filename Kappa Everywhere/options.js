@@ -63,7 +63,7 @@ function restore_options() {
   chrome.storage.sync.get({
       kappa: false,
       globals: true,
-      subs: false,
+      subs: true,
 	  bttv: false,
       //filter_text: '',
   }, function(items) {
