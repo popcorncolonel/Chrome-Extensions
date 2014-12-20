@@ -8,6 +8,8 @@ kappa = false;
 globals = true;
 subs = true;
 bttv = false;
+filter_text = '';
+filter_list = [];
 
 emote_dict = new Array();
 
@@ -17,11 +19,16 @@ chrome.storage.sync.get({
     globals: true,
     subs: true,
 	bttv: false,
+	filter_text: '',
 },function(items) {
     kappa = items.kappa;
     globals = items.globals;
     subs = items.subs;
 	bttv = items.bttv;
+    filter_text = items.filter_text;
+    filter_list = filter_text.split(/[\.,\s]+/);
+    console.log(filter_text);
+    console.log(filter_list);
     replace_words();
 });
 
@@ -69,7 +76,8 @@ disallowedChars = ['\\', ':', '/', '&', "'", '"', '?', '!', '#'];
 
 //sub-channels to ignore
 ignoredChannels = ['agetv1', 'gsl_standard', 'gsl', 'gomexp_2014_season_two', 'gsl_premium',
-                   'canadacup', 'smitegame', 'werster', 'beyondthesummit', 'srkevo1', 'thepremierleague', 'lionheartx10'];
+                   'canadacup', 'smitegame', 'werster', 'beyondthesummit', 'srkevo1', 'thepremierleague',
+                   'lionheartx10', 'starladder1'];
 
 dfsEvent = document.createEvent("Event");
 dfsEvent.initEvent('replaceWords', true, true);
@@ -82,10 +90,11 @@ function containsDisallowedChar(word) {
 }
 	
 function get_kappa() {
-    emote_dict['Kappa'] = {url:'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
-    loaded1 = true;
-    document.dispatchEvent(dfsEvent);
-    return emote_dict;
+    if (filter_list.indexOf('Kappa') == -1) {
+        emote_dict['Kappa'] = {url:'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
+        loaded1 = true;
+        document.dispatchEvent(dfsEvent);
+    }
 }
 
 function get_globals() {
@@ -95,11 +104,12 @@ function get_globals() {
     xhr.onload = function() {
 		emote_d = JSON.parse(xhr.responseText);
 		for (var key in emote_d) {
-			emote_dict[key] = {url:emote_d[key]['url']};
+            if (filter_list.indexOf(key) == -1) {
+                emote_dict[key] = {url:emote_d[key]['url']};
+            }
 		}
         loaded2 = true;
 		document.dispatchEvent(dfsEvent);
-		return emote_dict;
     }
 }
 
@@ -111,14 +121,14 @@ function get_subs() {
 		emote_d = JSON.parse(xhr.responseText);
 		for (var key in emote_d) {
 			for (var key2 in emote_d[key]['emotes']) {
-				if (ignoredChannels.indexOf(key.toLowerCase()) == -1) {
-					emote_dict[key2] = {url:emote_d[key]['emotes'][key2], channel:key};
+				if (ignoredChannels.indexOf(key.toLowerCase()) == -1 &&
+                    filter_list.indexOf(key2) == -1) {
+                        emote_dict[key2] = {url:emote_d[key]['emotes'][key2], channel:key};
 				}
 			}
 		}
         loaded3 = true;
 		document.dispatchEvent(dfsEvent);
-		return emote_dict;
     }
 }
 
@@ -130,13 +140,13 @@ function get_bttv() {
         emote_d = JSON.parse(xhr.responseText);
 		for (var key in emote_d) {
 			var word = emote_d[key]['regex'];
-			if(!containsDisallowedChar(word)) {
+			if(!containsDisallowedChar(word) && 
+                filter_list.indexOf(key) == -1) {
 				emote_dict[emote_d[key]['regex']] = {url:emote_d[key]['url']};
 			}
 		}
         loaded4 = true;
 		document.dispatchEvent(dfsEvent);
-		return emote_dict;
 	}
 }
 
@@ -180,7 +190,6 @@ function replace_text(element) {
             if (word in emote_dict && emote_dict[word]['url'] != undefined) {
                 found = true;
                 img = document.createElement('img');
-                //img.src = 'http:' + emote_dict[word]['url'];
                 img.src = emote_dict[word]['url'];
                 img.title = word;
                 img.alt = word;
