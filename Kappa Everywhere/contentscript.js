@@ -27,8 +27,6 @@ chrome.storage.sync.get({
 	bttv = items.bttv;
     filter_text = items.filter_text;
     filter_list = filter_text.split(/[\.,\s]+/);
-    console.log(filter_text);
-    console.log(filter_list);
     replace_words();
 });
 
@@ -77,11 +75,17 @@ disallowedChars = ['\\', ':', '/', '&', "'", '"', '?', '!', '#'];
 //sub-channels to ignore
 ignoredChannels = ['agetv1', 'gsl_standard', 'gsl', 'gomexp_2014_season_two', 'gsl_premium',
                    'canadacup', 'smitegame', 'werster', 'beyondthesummit', 'srkevo1', 'thepremierleague',
-                   'lionheartx10', 'starladder1'];
+                   'lionheartx10', 'starladder1', 'qfmarine', 'worldclasslol', 'quinckgaming', 'ilastpack'];
 
 dfsEvent = document.createEvent("Event");
 dfsEvent.initEvent('replaceWords', true, true);
 	
+function is_valid_sub_emote(emote_text) {
+    return !(filter_list.indexOf(emote_text) != -1 || // if the user filters it out
+             emote_text[0].match(/[A-Z]/g) || // if it has no prefix (starts with an uppercase letter
+             emote_text.match(/^[a-z]+$/g))
+}
+
 function containsDisallowedChar(word) {
 	for(dis in disallowedChars)
 		if(word.indexOf(dis) > -1)
@@ -90,7 +94,7 @@ function containsDisallowedChar(word) {
 }
 	
 function get_kappa() {
-    if (filter_list.indexOf('Kappa') == -1) {
+    if (filter_list.indexOf(key) == -1) {
         emote_dict['Kappa'] = {url:'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
         loaded1 = true;
         document.dispatchEvent(dfsEvent);
@@ -109,6 +113,7 @@ function get_globals() {
             }
 		}
         loaded2 = true;
+        console.log(emote_dict);
 		document.dispatchEvent(dfsEvent);
     }
 }
@@ -122,7 +127,7 @@ function get_subs() {
 		for (var key in emote_d) {
 			for (var key2 in emote_d[key]['emotes']) {
 				if (ignoredChannels.indexOf(key.toLowerCase()) == -1 &&
-                    filter_list.indexOf(key2) == -1) {
+                    is_valid_sub_emote(key2)) {
                         emote_dict[key2] = {url:emote_d[key]['emotes'][key2], channel:key};
 				}
 			}
@@ -141,7 +146,7 @@ function get_bttv() {
 		for (var key in emote_d) {
 			var word = emote_d[key]['regex'];
 			if(!containsDisallowedChar(word) && 
-                filter_list.indexOf(key) == -1) {
+                filter_list.indexOf(key) != -1) {
 				emote_dict[emote_d[key]['regex']] = {url:emote_d[key]['url']};
 			}
 		}
