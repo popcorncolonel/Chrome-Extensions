@@ -83,7 +83,7 @@ dfsEvent.initEvent('replaceWords', true, true);
 function is_valid_sub_emote(emote_text) {
     return !(filter_list.indexOf(emote_text) != -1 || // if the user filters it out
              emote_text[0].match(/[A-Z]/g) || // if it has no prefix (starts with an uppercase letter
-             emote_text.match(/^[a-z]+$/g))
+             emote_text.match(/^[a-z]+$/g)); //if it's all lowercase
 }
 
 function containsDisallowedChar(word) {
@@ -94,7 +94,7 @@ function containsDisallowedChar(word) {
 }
 	
 function get_kappa() {
-    if (filter_list.indexOf(key) == -1) {
+    if (filter_list.indexOf('Kappa') == -1) {
         emote_dict['Kappa'] = {url:'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
         loaded1 = true;
         document.dispatchEvent(dfsEvent);
@@ -113,7 +113,6 @@ function get_globals() {
             }
 		}
         loaded2 = true;
-        console.log(emote_dict);
 		document.dispatchEvent(dfsEvent);
     }
 }
