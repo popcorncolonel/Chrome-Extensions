@@ -77,6 +77,65 @@ ignoredChannels = ['agetv1', 'gsl_standard', 'gsl', 'gomexp_2014_season_two', 'g
                    'canadacup', 'smitegame', 'werster', 'beyondthesummit', 'srkevo1', 'thepremierleague',
                    'lionheartx10', 'starladder1', 'qfmarine', 'worldclasslol', 'quinckgaming', 'ilastpack'];
 
+// please ignore this bad code yes it could have been done via regex but i feld
+// like doing something meticulous today and didn't want to change the layout 
+// of the program
+smilies = new Object();
+smilies[':Z'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-b9cbb6884788aa62-24x18.png';
+smilies[':z'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-b9cbb6884788aa62-24x18.png';
+
+smilies[':)'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ebf60cd72f7aa600-24x18.png';
+smilies[':-)'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ebf60cd72f7aa600-24x18.png';
+
+smilies[':('] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-d570c4b3b8d8fc4d-24x18.png';
+smilies[':-('] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-d570c4b3b8d8fc4d-24x18.png';
+
+smilies[':p'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-e838e5e34d9f240c-24x18.png';
+smilies[':P'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-e838e5e34d9f240c-24x18.png';
+smilies[':-p'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-e838e5e34d9f240c-24x18.png';
+smilies[':-P'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-e838e5e34d9f240c-24x18.png';
+
+smilies[';p'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-3407bf911ad2fd4a-24x18.png';
+smilies[';-p'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-3407bf911ad2fd4a-24x18.png';
+smilies[';P'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-3407bf911ad2fd4a-24x18.png';
+smilies[';-P'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-3407bf911ad2fd4a-24x18.png';
+
+smilies['<3'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-577ade91d46d7edc-24x18.png';
+
+smilies[':/'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-374120835234cb29-24x18.png';
+smilies[':|'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-374120835234cb29-24x18.png';
+smilies[':\\'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-374120835234cb29-24x18.png';
+
+smilies[';)'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-cfaf6eac72fe4de6-24x18.png';
+smilies[';-)'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-cfaf6eac72fe4de6-24x18.png';
+
+smilies['R)'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-0536d670860bf733-24x18.png';
+smilies['R-)'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-0536d670860bf733-24x18.png';
+
+smilies['o_O'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-8e128fa8dc1de29c-24x18.png';
+smilies['O_O'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-8e128fa8dc1de29c-24x18.png';
+smilies['o_o'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-8e128fa8dc1de29c-24x18.png';
+smilies['O_o'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-8e128fa8dc1de29c-24x18.png';
+smilies['o.O'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-8e128fa8dc1de29c-24x18.png';
+smilies['O.O'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-8e128fa8dc1de29c-24x18.png';
+smilies['o.o'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-8e128fa8dc1de29c-24x18.png';
+smilies['O.o'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-8e128fa8dc1de29c-24x18.png';
+
+smilies[':D'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-9f2ac5d4b53913d7-24x18.png';
+smilies[':-D'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-9f2ac5d4b53913d7-24x18.png';
+
+smilies[':o'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ae4e17f5b9624e2f-24x18.png';
+smilies[':O'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ae4e17f5b9624e2f-24x18.png';
+smilies[':-o'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ae4e17f5b9624e2f-24x18.png';
+smilies[':-O'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ae4e17f5b9624e2f-24x18.png';
+
+smilies['>('] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-d31223e81104544a-24x18.png';
+
+smilies['B)'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-2cde79cfe74c6169-24x18.png';
+smilies['B-)'] = '//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-2cde79cfe74c6169-24x18.png';
+//this has been put on hold until i can figure out how to split words based on both whitespace and nonwhitespace characters
+//end goal: to replace "test :) 'Kappa'" with both the :) and the Kappa and still leave in the spaces.
+
 dfsEvent = document.createEvent("Event");
 dfsEvent.initEvent('replaceWords', true, true);
 	
