@@ -142,7 +142,9 @@ dfsEvent.initEvent('replaceWords', true, true);
 function is_valid_sub_emote(emote_text) {
     return !(filter_list.indexOf(emote_text) != -1 || // if the user filters it out
              emote_text[0].match(/[A-Z]/g) || // if it has no prefix (starts with an uppercase letter
-             emote_text.match(/^[a-z]+$/g)); //if it's all lowercase
+             emote_text.match(/^[a-z]+$/g) || // if all lowercase
+             emote_text.match(/^\d*$/g) //if just a number
+             );
 }
 
 function containsDisallowedChar(word) {
