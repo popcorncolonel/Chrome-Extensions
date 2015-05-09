@@ -10,6 +10,8 @@ subs = true;
 bttv = false;
 filter_text = '';
 filter_list = [];
+site_filter_text = '';
+site_filter_list = [];
 
 emote_dict = new Array();
 
@@ -20,24 +22,33 @@ chrome.storage.sync.get({
     subs: true,
 	bttv: false,
 	filter_text: '',
+	site_filter_text: '',
 },function(items) {
     kappa = items.kappa;
     globals = items.globals;
     subs = items.subs;
 	bttv = items.bttv;
+
     filter_text = items.filter_text;
     filter_list = filter_text.split(/[\.,\s]+/);
+
+    site_filter_text = items.site_filter_text;
+    site_filter_list = site_filter_text.split(/[,\s]+/);
+    if (site_filter_list.indexOf('') > -1) {
+        site_filter_list.splice(site_filter_list.indexOf(''), 1);
+    }
+
     replace_words();
 });
 
-//one for each setting; so it doesn't dfs 4 times (dfs is pretty slow for huge webpages)
+// One for each setting; so it doesn't dfs 4 times (dfs is pretty slow for huge webpages)
 loaded1 = false;
 loaded2 = false;
 loaded3 = false;
 loaded4 = false;
 
 function replace_words() {
-    //"if there's no cached data" "or the data is a week old" "or if i goddamn tell you to remotely"
+    // "If there's no cached data" "or the data is a week old" "or if i goddamn tell you to remotely"
     if (kappa) {
         get_kappa();
     } else loaded1 = true;
@@ -63,16 +74,24 @@ ignorelist = ['Win','Lose','GG','Kill','IMBA','CA','US','Pylon','Gosu','Fighting
 xhr = new XMLHttpRequest();
 */
 function do_dfs(evt) {
-    if (loaded1 && loaded2 && loaded3 && loaded4)
+    // Continue with the search?
+    var cont = false; 
+    // If the user specified to blacklist this site, don't do the DFS.
+    site_filter_list.forEach(function(e) { 
+        if (location.hostname.indexOf(e) > -1)
+            return;
+        cont = true;
+    });
+    if (cont && loaded1 && loaded2 && loaded3 && loaded4)
         dfs(document.body);
 }
 document.addEventListener('replaceWords', do_dfs, false);
 document.addEventListener('DOMNodeInserted', dynamically_replace, false);
 
-//ignore unparsable emotes
+// Ignore unparsable emotes.
 disallowedChars = ['\\', ':', '/', '&', "'", '"', '?', '!', '#'];
 
-//sub-channels to ignore
+// Sub-channels to ignore.
 ignoredChannels = ['agetv1', 'gsl_standard', 'gsl', 'gomexp_2014_season_two', 'gsl_premium',
                    'canadacup', 'smitegame', 'werster', 'beyondthesummit', 'srkevo1', 'thepremierleague',
                    'lionheartx10', 'starladder1', 'qfmarine', 'worldclasslol', 'quinckgaming', 'ilastpack'];

@@ -18,6 +18,7 @@ for (var i=0; i < idlist.length; i++) {
     document.getElementById(idlist[i]).addEventListener('click', save_options);
 }
 document.getElementById('sub_filter').addEventListener('keyup', save_options);
+document.getElementById('site_filter').addEventListener('keyup', save_options);
 
 //styling function
 function fade(element) {
@@ -43,12 +44,16 @@ function save_options() {
     var sub_filter = document.getElementById('sub_filter');
     var filter_text = sub_filter.value;
 
+    var site_filter = document.getElementById('site_filter');
+    var site_filter_text = site_filter.value;
+
     chrome.storage.sync.set({
         kappa: kappa.checked,
         globals: globals.checked,
         subs: subs.checked,
 		bttv: bttv.checked,
         filter_text: filter_text,
+        site_filter_text: site_filter_text,
     }, function() {
         // Draw "Saved!" to let user know options were saved.
         var stats = document.getElementById('saved');
@@ -66,12 +71,14 @@ function restore_options() {
       subs: true,
 	  bttv: false,
       filter_text: '',
+      site_filter_text: '',
   }, function(items) {
       document.getElementById('kappa').checked = items.kappa;
       document.getElementById('globals').checked = items.globals;
       document.getElementById('subs').checked = items.subs;
 	  document.getElementById('bttv').checked = items.bttv;
       document.getElementById('sub_filter').value = items.filter_text;
+      document.getElementById('site_filter').value = items.site_filter_text;
   });
 }
 
