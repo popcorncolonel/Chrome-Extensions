@@ -31,6 +31,9 @@ chrome.storage.sync.get({
 
     filter_text = items.filter_text;
     filter_list = filter_text.split(/[\.,\s]+/);
+    if (filter_list.indexOf('') > -1) {
+        filter_list.splice(filter_list.indexOf(''), 1);
+    }
 
     site_filter_text = items.site_filter_text;
     site_filter_list = site_filter_text.split(/[,\s]+/);
