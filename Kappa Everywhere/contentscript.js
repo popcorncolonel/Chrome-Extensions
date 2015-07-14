@@ -67,26 +67,24 @@ function replace_words() {
 	if (bttv) {
 		get_bttv();
     } else loaded4 = true;
+
     //"else, get it from some sort of cache" <- chrome storage api? limits and size and type (can dicts be values? do i need to json stringify it? Will that fit in chrome storage?)
 }
 
-/*
-//sub "emote" names to ignore
-ignorelist = ['Win','Lose','GG','Kill','IMBA','CA','US','Pylon','Gosu','Fighting','Cheese','TW','KR','SG','NL','JP','HK','double','triple','SNIPE','SK','POISON','C9','inverse','Anubis','Fraud','COAST','ICEFROG','Ra','Apollo','Roshan','Demon','Zhong','Thor','Dead','facepalm']
-
-xhr = new XMLHttpRequest();
-*/
 function do_dfs(evt) {
-    // Continue with the search?
-    var cont = false; 
     // If the user specified to blacklist this site, don't do the DFS.
-    site_filter_list.forEach(function(e) { 
-        if (location.hostname.indexOf(e) > -1)
+    cont = false;
+    for (var i=0; i < site_filter_list.length; i++) {
+        if (location.hostname.indexOf(site_filter_list[i]) > -1)
             return;
         cont = true;
-    });
-    if (cont && loaded1 && loaded2 && loaded3 && loaded4)
+    }
+    if (site_filter_list.length == 0) {
+        cont = true;
+    }
+    if (cont && loaded1 && loaded2 && loaded3 && loaded4) {
         dfs(document.body);
+    }
 }
 document.addEventListener('replaceWords', do_dfs, false);
 document.addEventListener('DOMNodeInserted', dynamically_replace, false);
