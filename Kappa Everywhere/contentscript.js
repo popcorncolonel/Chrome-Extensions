@@ -1,4 +1,3 @@
-
 //TODO: cache emotes, only retrive new emotes from the server when the cached ones are a day(?) old
 //      maybe when twitchemotes.com yells at me
 //TODO: get an icon that's not copywritten? if twitch mentions it. i'm not making money off this so...
