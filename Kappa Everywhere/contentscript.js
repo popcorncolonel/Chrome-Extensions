@@ -272,13 +272,16 @@ function replace_text(element) {
         for (var i=0; i < len; i++) {
             word = split[i];
             if (word in emote_dict && emote_dict[word]['url'] != undefined) {
+                var url = emote_dict[word]['url'];
                 found = true;
                 img = document.createElement('img');
-                img.src = emote_dict[word]['url'];
+                img.src = url;
                 img.title = word;
                 img.alt = word;
 				img.setAttribute('channel', emote_dict[word]['channel']); // Useful for debug :)
                 img.style.display = 'inline';
+                img.style.width = 'auto';
+                img.style.overflow = 'hidden';
                 txt = document.createTextNode(buffer);
                 parent_element.insertBefore(txt, element);
                 parent_element.insertBefore(img, element);
