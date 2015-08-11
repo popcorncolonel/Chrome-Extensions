@@ -83,6 +83,7 @@ function restore_options() {
 }
 
 // footer stuff
+/*
 document.getElementById('begging').addEventListener('mouseover', function() {
     var p = document.createElement('P');
     p.id = "annoyingtext";
@@ -94,4 +95,5 @@ document.getElementById('begging').addEventListener('mouseout', function () {
     var p = document.getElementById('annoyingtext')
     p.parentNode.removeChild(p);
 });
+*/
 
