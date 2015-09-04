@@ -236,9 +236,21 @@ function get_bttv() {
 
 function dynamically_replace(evt) {
     var element2 = evt.target;
-    //twitter hack solution
+    //twitter hack solution. lol it's getting hackier and hackier by the second.
     if (element2 && element2.tagName && element2.tagName.toLowerCase() == 'div') {
-        if (element2.parentElement.className.indexOf('tweet-box') > -1 || 
+        console.log(element2.parentElement);
+        console.log(element2.parentElement.className);
+        if (element2.parentElement && element2.parentElement.parentElement) {
+            if (element2.parentElement.parentElement.className.indexOf('tweet-') > -1 || 
+                element2.parentElement.parentElement.className.indexOf('normalizer') > -1)
+                return;
+        }
+        if (element2.parentElement && element2.parentElement.parentElement && element2.parentElement.parentElement) {
+            if (element2.parentElement.parentElement.parentElement.className.indexOf('tweet-') > -1 || 
+                element2.parentElement.parentElement.parentElement.className.indexOf('normalizer') > -1)
+                return;
+        }
+        if (element2.parentElement.className.indexOf('tweet-') > -1 || 
             element2.parentElement.className.indexOf('normalizer') > -1)
             return;
     }
