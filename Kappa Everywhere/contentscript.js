@@ -187,11 +187,12 @@ function get_globals() {
 	var xhr = new XMLHttpRequest();
     xhr.open('GET', '//twitchemotes.com/api_cache/v2/global.json');
     xhr.send();
+    var url_template = "//static-cdn.jtvnw.net/emoticons/v1/" //{image_id}/1.0
     xhr.onload = function() {
-		emote_d = JSON.parse(xhr.responseText);
-		for (var key in emote_d) {
-            if (filter_list.indexOf(key) == -1) {
-                emote_dict[key] = {url:emote_d[key]['url']};
+		emote_d = JSON.parse(xhr.responseText)['emotes'];
+		for (var emote in emote_d) {
+            if (filter_list.indexOf(emote) == -1) {
+                emote_dict[emote] = {url: url_template + emote_d[emote]['image_id'] + '/' + '1.0'};
             }
 		}
         loaded2 = true;
@@ -202,6 +203,27 @@ function get_globals() {
 function get_subs() {
 	var xhr = new XMLHttpRequest();
     xhr.open('GET', '//twitchemotes.com/api_cache/v2/subscriber.json');
+    xhr.send();
+    var url_template = "//static-cdn.jtvnw.net/emoticons/v1/" //{image_id}/1.0
+    xhr.onload = function() {
+		emote_d = JSON.parse(xhr.responseText)['channels'];
+		for (var channel in emote_d) {
+			for (var i in emote_d[channel]['emotes']) {
+                dict = emote_d[channel]['emotes'][i]
+                var code = dict['code'];
+				if (ignoredChannels.indexOf(channel.toLowerCase()) == -1 &&
+                    is_valid_sub_emote(code)) {
+                        emote_dict[code] = {url:
+                            url_template + dict['image_id'] + '/' + '1.0'};
+				}
+			}
+		}
+        loaded3 = true;
+		document.dispatchEvent(dfsEvent);
+    }
+    /*
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '//twitchemotes.com/subscriber.json');
     xhr.send();
     xhr.onload = function() {
 		emote_d = JSON.parse(xhr.responseText);
@@ -216,6 +238,7 @@ function get_subs() {
         loaded3 = true;
 		document.dispatchEvent(dfsEvent);
     }
+    */
 }
 
 function get_bttv() {
