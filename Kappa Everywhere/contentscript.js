@@ -218,15 +218,16 @@ function get_subs() {
 
 function get_bttv() {
 	var xhr = new XMLHttpRequest();
-    xhr.open('GET', '//cdn.betterttv.net/emotes/emotes.json');
+    xhr.open('GET', '//api.betterttv.net/2/emotes');
     xhr.send();
+    var url_template = "//cdn.betterttv.net/emote/"; // {{id}}/1x
     xhr.onload = function() {
-        emote_d = JSON.parse(xhr.responseText);
-		for (var key in emote_d) {
-			var word = emote_d[key]['regex'];
+        emote_list = JSON.parse(xhr.responseText)['emotes'];
+		for (var i in emote_list) {
+            var dict = emote_list[i];
 			if(!containsDisallowedChar(word) && 
                 filter_list.indexOf(key) != -1) {
-				emote_dict[emote_d[key]['regex']] = {url:emote_d[key]['url']};
+				emote_dict[dict['code']] = {url:url_template+dict['id']+'/'+'1x'};
 			}
 		}
         loaded4 = true;
