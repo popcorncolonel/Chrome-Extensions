@@ -183,7 +183,7 @@ function get_kappa() {
 
 function get_globals() {
 	var xhr = new XMLHttpRequest();
-    xhr.open('GET', '//twitchemotes.com/global.json');
+    xhr.open('GET', '//twitchemotes.com/api_cache/v2/global.json');
     xhr.send();
     xhr.onload = function() {
 		emote_d = JSON.parse(xhr.responseText);
@@ -199,7 +199,7 @@ function get_globals() {
 
 function get_subs() {
 	var xhr = new XMLHttpRequest();
-    xhr.open('GET', '//twitchemotes.com/subscriber.json');
+    xhr.open('GET', '//twitchemotes.com/api_cache/v2/subscriber.json');
     xhr.send();
     xhr.onload = function() {
 		emote_d = JSON.parse(xhr.responseText);
