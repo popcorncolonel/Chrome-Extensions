@@ -167,9 +167,11 @@ function is_valid_sub_emote(emote_text) {
 }
 
 function containsDisallowedChar(word) {
-	for(dis in disallowedChars)
-		if(word.indexOf(dis) > -1)
+	for(c in disallowedChars) {
+		if(word.indexOf(c) > -1) {
 			return true;
+        }
+    }
 	return false;
 }
 	
@@ -225,8 +227,8 @@ function get_bttv() {
         emote_list = JSON.parse(xhr.responseText)['emotes'];
 		for (var i in emote_list) {
             var dict = emote_list[i];
-			if(!containsDisallowedChar(word) && 
-                filter_list.indexOf(key) != -1) {
+			if(!containsDisallowedChar(dict['code']) && 
+                filter_list.indexOf(dict['code']) == -1) {
 				emote_dict[dict['code']] = {url:url_template+dict['id']+'/'+'1x'};
 			}
 		}
