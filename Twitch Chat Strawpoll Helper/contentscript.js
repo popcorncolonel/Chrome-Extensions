@@ -20,9 +20,6 @@
     var url = link.innerHTML.match(strawMatchRegex), linkHTML = link.innerHTML,
       resultstr = '', resulturl, title, xhttp, id;
     if (url) url = url[0];
-    //console.log(url);
-    //console.log(linkHTML);
-    //console.log(linkHTML.slice(0, -1));
     if (url !== linkHTML && url !== linkHTML.slice(0, -1)) return;
     resulturl = linkHTML.match(strawResultRegex); // for results
     if (resulturl) {
@@ -55,20 +52,16 @@
   }
 
   function fixChatMsg(element) {
-    var chats, links, link, i, j;
+    var links, link, i, j;
     if (!element || element.nodeType !== Node.ELEMENT_NODE || (typeof element.className !== 'string')) return;
-    chats = element.getElementsByClassName('chat-line');
-    i = chats.length;
-    if (!i) return; // if the dom node has no messages
-    while (i--) {
-      links = chats[i].getElementsByClassName('message')[0].getElementsByTagName('a');
-      j = links.length;
-      while (j--) {
-        link = links[j];
-        replace_strawpoii(link);
-        format(link);
-      }
-    } // for each link in the messages
+    links = element.getElementsByClassName('message')[0].getElementsByTagName('a');
+    j = links.length;
+    while (j--) {
+      link = links[j];
+      replace_strawpoii(link);
+      format(link);
+    }
+   // for each link in the messages
   }
 
   function onMutation(mutations) {
@@ -77,7 +70,9 @@
     while (i--) {
       nodes = mutations[i].addedNodes;
       j = nodes.length;
-      while (j--) fixChatMsg(nodes[j]);
+      while (j--) {
+          fixChatMsg(nodes[j]);
+      }
     }
     observer.start();
   }
