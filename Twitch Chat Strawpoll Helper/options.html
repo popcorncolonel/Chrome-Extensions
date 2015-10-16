@@ -1,39 +1,41 @@
 <html>
- <title>Twitch Strawpoll Fixer Options</title>
-  <font face="verdana">
-    <div style="font-size: 90%;color:#555555";>
+  <head>
+    <title>Twitch Strawpoll Fixer Options</title>
+    <script type="text/javascript" src="options.js" async="async"></script>
+  </head>
+  <body>
+    <div style="font-size:90%;color:#555555">
       Big thanks to <a target="_blank" href="http://dandirks.com">@DanDirks</a> for making Strawpoll!
       <br><br>
     </div>
-    <h2 style="display:inline;">General Options</h2>
-    <div style="font-size: 90%;color:#000000";>
+    <h2 style="display:inline">General Options</h2>
+    <div style="font-size:90%;color:#000000">
       <label><input id="show_strawpoll" type="checkbox" checked></input>
-        Show 'Strawpoll' 
-      </label> 
+        Show 'Strawpoll'
+      </label>
       <br>
       <label><input id="show_id" type="checkbox"></input>
-        Show the strawpoll ID 
-      </label> 
+        Show the strawpoll ID
+      </label>
       <br>
       <label><input id="show_title" type="checkbox" checked></input>
         Show the strawpoll title
       </label> 
       <br>
       <br>
-      What your Strawpoll links will look like: <a id="example" target="_blank" href=http://strawpoll.me/1510000>Strawpoll 1510000: Should I Play G-Mod?</a>
+      What your Strawpoll links will look like: <a id="example" target="_blank" href="http://strawpoll.me/1510000">Strawpoll 1510000: Should I Play G-Mod?</a>
       <br>
-      <p id="why" style="font-size:60%;margin-left:2em;"></p>
+      <p id="why" style="font-size:60%;margin-left:2em"></p>
     </div>
     <br>
-    <div id="status" style="display:none; font-size:100%; color:#ff0000;">Saved!</div>
-    <div id="emailbutton" data-role="footer" style = "position:fixed; bottom:10px; left:10px;">
-      <a id="sendbutton" href="mailto:popcorncolonel@gmail.com?subject=Strawpoll Chat Fixer"><img id="emailimg" width="80"></img></a>
+    <div id="status" style="display:none;font-size:100%;color:#FF0000">Saved!</div>
+    <div id="emailbutton" data-role="footer" style="position:fixed;bottom:10px;left:10px">
+      <p id="email" style="text-align:left;visibility:hidden">Found a bug? Have a suggestion? Email me.</p>
+      <a id="sendbutton" href="mailto:popcorncolonel@gmail.com?subject=Strawpoll Chat Fixer"><img id="emailimg" width="80" alt="e-mail" title="e-mail bug fixes and suggestions to popcorncolonel@gmail.com" src="images/sendemail.png"></a>
     </div>
-   <font face="Comic Sans MS">
-    <div data-role="footer" style = "position:fixed; bottom:0px; right:10px;">
+    <div style="position:fixed;bottom:0;right:10px;font-family:'Comic Neue','Comic Sans MS',fantasy" data-role="footer">
+     <p id="doge" style="text-align:right;visibility:hidden">Dogecoin donation address</p>
      <h3 id="donationaddress">DJwf2p9LtMyF9XxkUXxmZpXa2yE9bR5QTv</h3>
     </div>
-   </font>
-  </font>
-  <script src="options.js"></script>
+  </body>
 </html>
