@@ -74,13 +74,12 @@ function do_dfs(evt) {
     // If the user specified to blacklist this site, don't do the DFS.
     cont = false;
     for (var i=0; i < site_filter_list.length; i++) {
-        if (location.hostname.indexOf(site_filter_list[i]) > -1)
+        if (location.hostname.indexOf(site_filter_list[i]) > -1) {
+            cont = false;
             return;
-        cont = true;
+        }
     }
-    if (site_filter_list.length == 0) {
-        cont = true;
-    }
+    cont = true;
     if (cont && loaded1 && loaded2 && loaded3 && loaded4) {
         dfs(document.body);
     }
@@ -262,6 +261,12 @@ function get_bttv() {
 
 function dynamically_replace(evt) {
     var element2 = evt.target;
+    // if this site isn't being blacklisted
+    for (var i=0; i < site_filter_list.length; i++) {
+        if (location.hostname.indexOf(site_filter_list[i]) > -1) {
+            return;
+        }
+    }
     //twitter hack solution. lol it's getting hackier and hackier by the second.
     if (element2 && element2.tagName && element2.tagName.toLowerCase() == 'div') {
         if (element2.parentElement && element2.parentElement.parentElement) {
