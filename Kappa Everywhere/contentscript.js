@@ -212,8 +212,10 @@ function get_subs() {
                 var code = dict['code'];
 				if (ignoredChannels.indexOf(channel.toLowerCase()) == -1 &&
                     is_valid_sub_emote(code)) {
-                        emote_dict[code] = {url:
-                            url_template + dict['image_id'] + '/' + '1.0'};
+                        emote_dict[code] = {
+                            url: url_template + dict['image_id'] + '/' + '1.0',
+                            channel: channel
+                        };
 				}
 			}
 		}
@@ -351,8 +353,12 @@ function replace_text(element) {
                 img.style.width = 'auto';
                 img.style.overflow = 'hidden';
 
-                var tooltip = new Opentip(img, word, {
-                    background: "rgba(200,200,200,0.7)",
+                var channel_name = emote_dict[word]['channel'];
+                if (channel_name) {
+                    channel_name = "Channel: " + channel_name;
+                }
+                var tooltip = new Opentip(img, channel_name, word, {
+                    background: [[0, "rgba(255,255,255,0.95)"], [1, "rgba(210,210,210,0.95)"]],
                     borderColor: "rgba(120,120,120,0.97)",
                     offset: [0, 0],
                     showEffectDuration: 0.0,
