@@ -259,6 +259,45 @@ function get_bttv() {
 	}
 }
 
+function get_all_parents(elt) {
+    var a = elt;
+    var parents = [a];
+    while (a) {
+        parents.unshift(a);
+        a = a.parentNode;
+    }
+    return parents;
+}
+
+function do_not_replace(element2) {
+    //twitter hack solution. lol it's getting hackier and hackier by the second.
+    if (element2 && element2.tagName && element2.tagName.toLowerCase() == 'div') {
+        if (element2.parentElement && element2.parentElement.parentElement) {
+            if (element2.parentElement.parentElement.className.indexOf('tweet-') > -1 || 
+                element2.parentElement.parentElement.className.indexOf('normalizer') > -1)
+                return true;
+        }
+        if (element2.parentElement && element2.parentElement.parentElement && element2.parentElement.parentElement.parentElement) {
+            if (element2.parentElement.parentElement.parentElement.className.indexOf('tweet-') > -1 || 
+                element2.parentElement.parentElement.parentElement.className.indexOf('normalizer') > -1)
+                return true;
+        }
+    }
+    var want_to_exit = false;
+    get_all_parents(element2).forEach(function(elt) {
+        if (elt.className &&
+              (elt.className.indexOf('opentip') > -1 || 
+               elt.className.indexOf('ot-') > -1)
+            ) {
+            want_to_exit = true;
+        }
+    });
+    if (want_to_exit) {
+        return true;
+    }
+    return false;
+}
+
 function dynamically_replace(evt) {
     var element2 = evt.target;
     // if this site isn't being blacklisted
@@ -267,21 +306,9 @@ function dynamically_replace(evt) {
             return;
         }
     }
-    //twitter hack solution. lol it's getting hackier and hackier by the second.
-    if (element2 && element2.tagName && element2.tagName.toLowerCase() == 'div') {
-        if (element2.parentElement && element2.parentElement.parentElement) {
-            if (element2.parentElement.parentElement.className.indexOf('tweet-') > -1 || 
-                element2.parentElement.parentElement.className.indexOf('normalizer') > -1)
-                return;
-        }
-        if (element2.parentElement && element2.parentElement.parentElement && element2.parentElement.parentElement.parentElement) {
-            if (element2.parentElement.parentElement.parentElement.className.indexOf('tweet-') > -1 || 
-                element2.parentElement.parentElement.parentElement.className.indexOf('normalizer') > -1)
-                return;
-        }
-        if (element2.parentElement.className.indexOf('tweet-') > -1 || 
-            element2.parentElement.className.indexOf('normalizer') > -1)
-            return;
+
+    if (do_not_replace(element2)) {
+        return;
     }
 
     //OH GOD HOW DO I MAKE BOOLEAN LOGIC READABLE ON JAVASCRIPT PLEASE TO HELP
@@ -317,12 +344,25 @@ function replace_text(element) {
                 found = true;
                 img = document.createElement('img');
                 img.src = url;
-                img.title = word;
-                img.alt = word;
+                //img.title = word;
+                //img.alt = word;
 				img.setAttribute('channel', emote_dict[word]['channel']); // Useful for debug :)
                 img.style.display = 'inline';
                 img.style.width = 'auto';
                 img.style.overflow = 'hidden';
+
+                var tooltip = new Opentip(img, word, {
+                    background: "rgba(200,200,200,0.7)",
+                    borderColor: "rgba(120,120,120,0.97)",
+                    offset: [0, 0],
+                    showEffectDuration: 0.0,
+                    hideEffectDuration: 0.0,
+                    delay: 0.0,
+                    hideDelay: 0.0,
+                    tipJoint: "bottom",
+                    target: img,
+                });
+
                 txt = document.createTextNode(buffer);
                 parent_element.insertBefore(txt, element);
                 parent_element.insertBefore(img, element);
@@ -349,6 +389,9 @@ function replace_text(element) {
 
 function dfs(element) {
     var child, next;
+    if (do_not_replace(element)) {
+        return;
+    }
     switch(element.nodeType) {
         case 1: //switch cases are so readable. heh. i <3 u javascript.
         case 9:
