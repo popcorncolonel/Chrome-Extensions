@@ -126,8 +126,11 @@
 .opentip-container .opentip .ot-loading-indicator {
   display: none;
 }
-.ot-header {
-  text-align: center;
+.ot-header
+.ot-header > span
+{
+  text-align: center !important;
+  font-size: 4px !important;
 }
 .opentip-container.ot-loading .ot-loading-indicator {
   width: 30px;

@@ -287,7 +287,7 @@ function do_not_replace(element2) {
     }
     var want_to_exit = false;
     get_all_parents(element2).forEach(function(elt) {
-        if (elt.className &&
+        if (elt && elt.className && elt.className.indexOf &&
               (elt.className.indexOf('opentip') > -1 || 
                elt.className.indexOf('ot-') > -1)
             ) {
