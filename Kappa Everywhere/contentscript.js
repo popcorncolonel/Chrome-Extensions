@@ -7,6 +7,7 @@ kappa = false;
 globals = true;
 subs = true;
 bttv = false;
+mute = false;
 filter_text = '';
 filter_list = [];
 site_filter_text = '';
@@ -20,6 +21,7 @@ chrome.storage.sync.get({
     globals: true,
     subs: true,
 	bttv: false,
+    mute: false,
 	filter_text: '',
 	site_filter_text: '',
 },function(items) {
@@ -27,6 +29,7 @@ chrome.storage.sync.get({
     globals = items.globals;
     subs = items.subs;
 	bttv = items.bttv;
+    mute = items.mute;
 
     filter_text = items.filter_text;
     filter_list = filter_text.split(/[\.,\s]+/);
@@ -48,6 +51,7 @@ loaded1 = false;
 loaded2 = false;
 loaded3 = false;
 loaded4 = false;
+loaded5 = false;
 
 function replace_words() {
     // "If there's no cached data" "or the data is a week old" "or if i goddamn tell you to remotely"
@@ -371,7 +375,9 @@ function replace_text(element) {
 
                 txt = document.createTextNode(buffer);
                 parent_element.insertBefore(txt, element);
-                parent_element.insertBefore(img, element);
+                if (!mute) {
+                    parent_element.insertBefore(img, element);
+                }
                 buffer = '';
             } else {
                 buffer += word;

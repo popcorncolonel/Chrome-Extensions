@@ -9,6 +9,7 @@ var idlist = [
     'subs',
     'kappa',
 	'bttv',
+    'mute'
 ];
 
 // startup stuff
@@ -40,6 +41,7 @@ function save_options() {
     var globals = document.getElementById('globals');
     var subs = document.getElementById('subs');
 	var bttv = document.getElementById('bttv');
+    var mute = document.getElementById('mute');
 
     var sub_filter = document.getElementById('sub_filter');
     var filter_text = sub_filter.value;
@@ -52,6 +54,7 @@ function save_options() {
         globals: globals.checked,
         subs: subs.checked,
 		bttv: bttv.checked,
+        mute: mute.checked,
         filter_text: filter_text,
         site_filter_text: site_filter_text,
     }, function() {
@@ -70,6 +73,7 @@ function restore_options() {
       globals: true,
       subs: true,
 	  bttv: false,
+      mute: false,
       filter_text: '',
       site_filter_text: '',
   }, function(items) {
@@ -77,6 +81,7 @@ function restore_options() {
       document.getElementById('globals').checked = items.globals;
       document.getElementById('subs').checked = items.subs;
 	  document.getElementById('bttv').checked = items.bttv;
+      document.getElementById('mute').checked = items.mute;
       document.getElementById('sub_filter').value = items.filter_text;
       document.getElementById('site_filter').value = items.site_filter_text;
   });
