@@ -310,8 +310,7 @@ function do_not_replace(element2) {
     var want_to_exit = false;
     get_all_parents(element2).forEach(function(elt) {
         if (elt && elt.className && elt.className.indexOf &&
-              (elt.className.indexOf('opentip') > -1 || 
-               elt.className.indexOf('ot-') > -1)
+              (elt.className.indexOf('opentip') > -1)
             ) {
             want_to_exit = true;
         }
@@ -324,6 +323,7 @@ function do_not_replace(element2) {
 
 function dynamically_replace(evt) {
     var element2 = evt.target;
+    //console.log(element2);
     // if this site isn't being blacklisted
     for (var i=0; i < site_filter_list.length; i++) {
         if (location.hostname.indexOf(site_filter_list[i]) > -1) {
