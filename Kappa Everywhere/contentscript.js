@@ -51,7 +51,6 @@ loaded1 = false;
 loaded2 = false;
 loaded3 = false;
 loaded4 = false;
-loaded5 = false;
 
 function replace_words() {
     // "If there's no cached data" "or the data is a week old" "or if i goddamn tell you to remotely"
@@ -191,6 +190,13 @@ function get_globals() {
     xhr.open('GET', '//twitchemotes.com/api_cache/v2/global.json');
     xhr.send();
     var url_template = "//static-cdn.jtvnw.net/emoticons/v1/" //{image_id}/1.0
+    function done_with_loading() {
+        loaded2 = true;
+		document.dispatchEvent(dfsEvent);
+    }
+    xhr.ontimeout = function() {
+        done_with_loading();
+    };
     xhr.onload = function() {
 		emote_d = JSON.parse(xhr.responseText)['emotes'];
 		for (var emote in emote_d) {
@@ -198,8 +204,7 @@ function get_globals() {
                 emote_dict[emote] = {url: url_template + emote_d[emote]['image_id'] + '/' + '1.0'};
             }
 		}
-        loaded2 = true;
-		document.dispatchEvent(dfsEvent);
+        done_with_loading();
     }
 }
 
@@ -208,6 +213,13 @@ function get_subs() {
     xhr.open('GET', '//twitchemotes.com/api_cache/v2/subscriber.json');
     xhr.send();
     var url_template = "//static-cdn.jtvnw.net/emoticons/v1/" //{image_id}/1.0
+    function done_with_loading() {
+        loaded3 = true;
+		document.dispatchEvent(dfsEvent);
+    }
+    xhr.ontimeout = function() {
+        done_with_loading();
+    };
     xhr.onload = function() {
 		emote_d = JSON.parse(xhr.responseText)['channels'];
 		for (var channel in emote_d) {
@@ -223,7 +235,7 @@ function get_subs() {
 				}
 			}
 		}
-        loaded3 = true;
+        done_with_loading();
 		document.dispatchEvent(dfsEvent);
     }
     /*
@@ -251,6 +263,13 @@ function get_bttv() {
     xhr.open('GET', '//api.betterttv.net/2/emotes');
     xhr.send();
     var url_template = "//cdn.betterttv.net/emote/"; // {{id}}/1x
+    function done_with_loading() {
+        loaded4 = true;
+		document.dispatchEvent(dfsEvent);
+    }
+    xhr.ontimeout = function() {
+        done_with_loading();
+    };
     xhr.onload = function() {
         emote_list = JSON.parse(xhr.responseText)['emotes'];
 		for (var i in emote_list) {
@@ -260,8 +279,7 @@ function get_bttv() {
 				emote_dict[dict['code']] = {url:url_template+dict['id']+'/'+'1x'};
 			}
 		}
-        loaded4 = true;
-		document.dispatchEvent(dfsEvent);
+        done_with_loading();
 	}
 }
 
