@@ -375,6 +375,19 @@ function replace_text(element) {
                 img.style.width = 'auto';
                 img.style.overflow = 'hidden';
 
+                // Change the heights of the image?
+                get_all_parents(parent_element).forEach(function(elt) {
+                    if (elt && elt.className && elt.className.indexOf &&
+                          (
+                           // "stream item" is the class of twitch stream objects
+                           (elt.className.indexOf('stream') > -1) 
+                           && (elt.className.indexOf('item') > -1) 
+                          )
+                        ) {
+                            img.style.height = '20px';
+                    }
+                });
+
                 var channel_name = emote_dict[word]['channel'];
                 if (channel_name) {
                     channel_name = "Channel: " + channel_name;
