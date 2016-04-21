@@ -46,6 +46,38 @@ chrome.storage.sync.get({
     replace_words();
 });
 
+
+// MUTATION OBSERVER STUFF
+var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+
+var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      if (mutation.type === 'childList') {
+          for (var index = 0; index < mutation.addedNodes.length; ++index) {
+              var currentNode = mutation.addedNodes[index];
+              dfs(currentNode);
+          }
+      }
+      var entry = {
+        mutation: mutation,
+        addedNodes: mutation.addedNodes,
+        el: mutation.target,
+        value: mutation.target.textContent
+      };
+  });
+});
+
+var options = {
+  subtree: true,
+  childList: true,
+  attributes: false,
+  characterData: true
+};
+
+var body = document.querySelector('body');
+observer.observe(body, options);
+
+
 // One for each setting; so it doesn't dfs 4 times (dfs is pretty slow for huge webpages)
 loaded1 = false;
 loaded2 = false;
@@ -87,6 +119,7 @@ function do_dfs(evt) {
         dfs(document.body);
     }
 }
+
 document.addEventListener('replaceWords', do_dfs, false);
 document.addEventListener('DOMNodeInserted', dynamically_replace, false);
 
@@ -323,7 +356,6 @@ function do_not_replace(element2) {
 
 function dynamically_replace(evt) {
     var element2 = evt.target;
-    //console.log(element2);
     // if this site isn't being blacklisted
     for (var i=0; i < site_filter_list.length; i++) {
         if (location.hostname.indexOf(site_filter_list[i]) > -1) {
@@ -430,7 +462,18 @@ function replace_text(element) {
     }
 }
 
-function dfs(element) {
+function iframeRef( frameRef ) {
+    try {
+    return frameRef.contentWindow
+        ? frameRef.contentWindow.document
+        : frameRef.contentDocument
+    } catch(e) {
+        // security error, CSRF
+        return;
+    }
+}
+
+function dfs(element, recursive) {
     var child, next;
     if (do_not_replace(element)) {
         return;
@@ -439,15 +482,33 @@ function dfs(element) {
         case 1: //switch cases are so readable. heh. i <3 u javascript.
         case 9:
         case 11:
+            var inner_iframe
+            if (element.tagName.toLowerCase() == 'iframe') {
+                element.onload = function() {
+                    inner_iframe = iframeRef(element);
+                    if (!inner_iframe) {
+                        return;
+                    }
+                    element = inner_iframe.firstChild;
+                    while (element) {
+                        observer.observe(element, options);
+                        next = element.nextSibling;
+                        //dfs(element);
+                        element = next;
+                    }
+                }
+                return;
+            }
             child = element.firstChild;
             while (child) {
                 next = child.nextSibling;
-                dfs(child);
+                dfs(child, true);
                 child = next;
             }
+            break;
         case 3:
             replace_text(element);
-            break
+            break;
     }
 }
 
