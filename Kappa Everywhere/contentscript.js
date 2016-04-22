@@ -348,25 +348,13 @@ function do_not_replace(element2) {
             want_to_exit = true;
         }
     });
-    if (want_to_exit) {
-        return true;
-    }
-    return false;
-}
-
-function dynamically_replace(evt) {
-    var element2 = evt.target;
     // if this site isn't being blacklisted
     for (var i=0; i < site_filter_list.length; i++) {
         if (location.hostname.indexOf(site_filter_list[i]) > -1) {
-            return;
+            return true;
         }
     }
-
-    if (do_not_replace(element2)) {
-        return;
-    }
-
+    //
     //OH GOD HOW DO I MAKE BOOLEAN LOGIC READABLE ON JAVASCRIPT PLEASE TO HELP
     if (element2 && (!element2.className || 
                     // if it's not a popup bubble on twitch chat (BTTV)
@@ -376,8 +364,24 @@ function dynamically_replace(evt) {
                     //ignore twitch chat lines
                      element2.className.indexOf && element2.className.indexOf('chat-line') == -1)
                 )) {
-        dfs(element2);
+    } else {
+        return true;
     }
+     
+    if (want_to_exit) {
+        return true;
+    }
+    return false;
+}
+
+function dynamically_replace(evt) {
+    var element2 = evt.target;
+
+    if (do_not_replace(element2)) {
+        return;
+    }
+
+    dfs(element2);
 }
 
 function replace_text(element) {
