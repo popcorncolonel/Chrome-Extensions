@@ -326,7 +326,13 @@ function get_all_parents(elt) {
     return parents;
 }
 
+// return true if you do NOT want to dfs this element!
+// return false at the end to actually dfs this element (aka if all of these checks pass)
 function do_not_replace(element2) {
+    if (element2 && element2.tagName && element2.tagName.toLowerCase() == 'script') {
+        return true;
+    }
+
     //twitter hack solution. lol it's getting hackier and hackier by the second.
     if (element2 && element2.tagName && element2.tagName.toLowerCase() == 'div') {
         if (element2.parentElement && element2.parentElement.parentElement) {
