@@ -360,18 +360,16 @@ function do_not_replace(element2) {
             return true;
         }
     }
-    //
-    //OH GOD HOW DO I MAKE BOOLEAN LOGIC READABLE ON JAVASCRIPT PLEASE TO HELP
-    if (element2 && (!element2.className || 
-                    // if it's not a popup bubble on twitch chat (BTTV)
-                    //maybe the worst code i've ever written? yah. oh well it works lol
-                    ((element2.className && element2.className.indexOf && element2.className.indexOf('tipsy') == -1 || 
-                      (location && location.hostname && location.hostname.indexOf && location.hostname.indexOf('twitch.tv') == -1)) &&
-                    //ignore twitch chat lines
-                     element2.className.indexOf && element2.className.indexOf('chat-line') == -1)
-                )) {
-    } else {
-        return true;
+
+    // lol dont read this or think about this
+    if (location && location.hostname && location.hostname.indexOf && location.hostname.indexOf('twitch.tv') > -1) {
+        if (element2 && element2.className && element2.className.indexOf && element2.className.indexOf('tipsy') > -1) {
+            return true;
+        }
+        var p = element2.parentElement || element2;
+        if (p && p.className && p.className.indexOf && p.className.indexOf('tipsy') > -1) {
+            return true;
+        }
     }
      
     if (want_to_exit) {
