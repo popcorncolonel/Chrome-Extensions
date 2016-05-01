@@ -109,7 +109,9 @@ function do_dfs(evt) {
     // If the user specified to blacklist this site, don't do the DFS.
     cont = false;
     for (var i=0; i < site_filter_list.length; i++) {
-        if (location.hostname.indexOf(site_filter_list[i]) > -1) {
+        var blacklisted_site_name = site_filter_list[i].toLowerCase();
+        var page_url = location.href.toLowerCase();
+        if (page_url.indexOf(blacklisted_site_name) > -1) {
             cont = false;
             return;
         }
@@ -213,9 +215,9 @@ function containsDisallowedChar(word) {
 function get_kappa() {
     if (filter_list.indexOf('Kappa') == -1) {
         emote_dict['Kappa'] = {url:'//static-cdn.jtvnw.net/jtv_user_pictures/chansub-global-emoticon-ddc6e3a8732cb50f-25x28.png'};
-        loaded1 = true;
-        document.dispatchEvent(dfsEvent);
     }
+    loaded1 = true;
+    document.dispatchEvent(dfsEvent);
 }
 
 function get_globals() {
@@ -271,24 +273,6 @@ function get_subs() {
         done_with_loading();
 		document.dispatchEvent(dfsEvent);
     }
-    /*
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '//twitchemotes.com/subscriber.json');
-    xhr.send();
-    xhr.onload = function() {
-		emote_d = JSON.parse(xhr.responseText);
-		for (var key in emote_d) {
-			for (var key2 in emote_d[key]['emotes']) {
-				if (ignoredChannels.indexOf(key.toLowerCase()) == -1 &&
-                    is_valid_sub_emote(key2)) {
-                        emote_dict[key2] = {url:emote_d[key]['emotes'][key2], channel:key};
-				}
-			}
-		}
-        loaded3 = true;
-		document.dispatchEvent(dfsEvent);
-    }
-    */
 }
 
 function get_bttv() {
