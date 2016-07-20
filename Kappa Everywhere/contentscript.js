@@ -338,6 +338,8 @@ function do_not_replace(element2) {
             want_to_exit = true;
         }
     });
+
+
     // if this site isn't being blacklisted
     for (var i=0; i < site_filter_list.length; i++) {
         if (location.hostname.indexOf(site_filter_list[i]) > -1) {
@@ -345,8 +347,21 @@ function do_not_replace(element2) {
         }
     }
 
-    // lol dont read this or think about this
+    // here we consider when we're on twitch
     if (location && location.hostname && location.hostname.indexOf && location.hostname.indexOf('twitch.tv') > -1) {
+        var elt = element2.parentElement;
+        // Don't replace the bttv suggested emote
+        if (elt && elt.parentElement && elt.parentElement.className && (elt.parentElement.className+"").indexOf('suggestion') > -1) {
+            if (elt.parentElement.parentElement && elt.parentElement.parentElement.parentElement) {
+                var great_grandparent = elt.parentElement.parentElement.parentElement;
+                if (great_grandparent.className && great_grandparent.className.indexOf('suggestions') > -1) {
+                    // bttv suggestions has the structure ".suggestions <highlighted?> .suggestion"
+                    return true;
+                }
+            }
+        }
+
+        // lol dont read this or think about this
         if (element2 && element2.className && element2.className.indexOf && element2.className.indexOf('tipsy') > -1) {
             return true;
         }
