@@ -72,7 +72,6 @@ function get_dl_url(youtube_id, youtube_title) {
         + "&ID3%5Bartist%5D=" + ((artist.trim()).replace(" ", "+"))
         + "&ID3%5Bcomment%5D=&ID3%5Bgenre%5D=&ID3%5Balbum%5D=&ID3%5Btrack%5D=0&ID3%5Byear%5D="
         + "&downloadToken=" + (new Date().getTime());
-        console.log(url);
         return url;
  }
 
