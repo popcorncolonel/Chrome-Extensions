@@ -4,7 +4,7 @@
   "name": "Trump is Sad!",
   "short_name": "Trump is Sad!",
   "description": "Replaces the Sad Facebook emotion with Donald Trump being Sad!",
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "content_scripts": [{
       "js": ["sad.js"],

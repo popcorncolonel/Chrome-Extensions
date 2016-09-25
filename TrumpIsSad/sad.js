@@ -17,6 +17,13 @@ style.textContent = '' +
 '    background-position: 0 -87px !important;'+
 '}'+
 
+'._9-y._3j7r /* www: when you click on Sad! */ ' + 
+'{' +
+'    background-image: url(http://i.imgur.com/ezT25HW.png) !important;'+
+'    background-size: 13px 126px !important;'+
+'    background-position: 0 -87px !important;'+
+'}'+
+
 '._iuz {'+
     'background-image: url(http://i.imgur.com/ezT25HW.png) !important;'+
 '}'+
@@ -37,11 +44,13 @@ style.textContent = '' +
 '}'+
 
 // Displays the new "Sad!" text
-'._iuy ._39m[data-reaction="7"] ._39n div:after {'+
+'._iuy ._39m[data-reaction="7"] ._39n div:after'+
+'{'+
 '    opacity: 1 !important;'+
 '}'+
 
-'._39m[data-reaction="7"] ._39n div:after {'+
+'._39m[data-reaction="7"] ._39n div:after'+
+'{'+
 '    content: \'Sad!\';'+
 '    display: block;'+
 '    visibility: visible;'+
