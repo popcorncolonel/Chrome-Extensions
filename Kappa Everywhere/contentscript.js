@@ -408,7 +408,7 @@ function replace_text(element) {
                 img = document.createElement('img');
                 img.src = url;
                 //img.title = word;
-                //img.alt = word;
+                img.alt = word;
 				img.setAttribute('channel', emote_dict[word]['channel']); // Useful for debug :)
                 img.style.display = 'inline';
                 img.style.width = 'auto';
