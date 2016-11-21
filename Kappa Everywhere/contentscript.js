@@ -323,7 +323,10 @@ function get_bttv_channels() {
                 var dict = emote_list[i];
                 if(!containsDisallowedChar(dict['code']) && 
                     filter_list.indexOf(dict['code']) == -1) {
-                    emote_dict[dict['code']] = {url:url_template+dict['id']+'/'+'1x'};
+                    emote_dict[dict['code']] = {
+                        url: url_template+dict['id']+'/'+'1x',
+                        channel: channel + " (bttv)"
+                    };
                 }
             }
         }
