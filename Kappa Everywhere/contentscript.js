@@ -12,6 +12,8 @@ filter_text = '';
 filter_list = [];
 site_filter_text = '';
 site_filter_list = [];
+bttv_channel_text = '';
+bttv_channel_list = [];
 
 emote_dict = new Array();
 
@@ -24,6 +26,7 @@ chrome.storage.sync.get({
     mute: false,
 	filter_text: '',
 	site_filter_text: '',
+    bttv_channel_text: ''
 },function(items) {
     kappa = items.kappa;
     globals = items.globals;
@@ -41,6 +44,12 @@ chrome.storage.sync.get({
     site_filter_list = site_filter_text.split(/[,\s]+/);
     if (site_filter_list.indexOf('') > -1) {
         site_filter_list.splice(site_filter_list.indexOf(''), 1);
+    }
+
+    bttv_channel_text = items.bttv_channel_text;
+    bttv_channel_list = bttv_channel_text.split(/[,\s]+/);
+    if (bttv_channel_list.indexOf('') > -1) {
+        bttv_channel_list.splice(bttv_channel_list.indexOf(''), 1);
     }
 
     replace_words();
@@ -99,6 +108,7 @@ function replace_words() {
     } else loaded3 = true;
 
 	if (bttv) {
+        get_bttv_channels();
 		get_bttv();
     } else loaded4 = true;
 
@@ -298,6 +308,29 @@ function get_bttv() {
 		}
         done_with_loading();
 	}
+}
+
+function get_bttv_channels() {
+
+    bttv_channel_list.forEach(function(channel) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '//api.betterttv.net/2/channels/'+channel);
+        xhr.send();
+        var url_template = "//cdn.betterttv.net/emote/"; // {{id}}/1x
+        xhr.onload = function() {
+            emote_list = JSON.parse(xhr.responseText)['emotes'];
+            for (var i in emote_list) {
+                var dict = emote_list[i];
+                if(!containsDisallowedChar(dict['code']) && 
+                    filter_list.indexOf(dict['code']) == -1) {
+                    emote_dict[dict['code']] = {
+                        url: url_template+dict['id']+'/'+'1x',
+                        channel: channel + " (bttv)"
+                    };
+                }
+            }
+        }
+    }, this);
 }
 
 function get_all_parents(elt) {

@@ -20,6 +20,7 @@ for (var i=0; i < idlist.length; i++) {
 }
 document.getElementById('sub_filter').addEventListener('keyup', save_options);
 document.getElementById('site_filter').addEventListener('keyup', save_options);
+document.getElementById('bttv_channels').addEventListener('keyup', save_options);
 
 //styling function
 function fade(element) {
@@ -49,6 +50,9 @@ function save_options() {
     var site_filter = document.getElementById('site_filter');
     var site_filter_text = site_filter.value;
 
+    var bttv_channel = document.getElementById('bttv_channels');
+    var bttv_channel_text = bttv_channel.value;
+
     chrome.storage.sync.set({
         kappa: kappa.checked,
         globals: globals.checked,
@@ -57,6 +61,7 @@ function save_options() {
         mute: mute.checked,
         filter_text: filter_text,
         site_filter_text: site_filter_text,
+        bttv_channel_text: bttv_channel_text
     }, function() {
         // Draw "Saved!" to let user know options were saved.
         var stats = document.getElementById('saved');
@@ -76,6 +81,7 @@ function restore_options() {
       mute: false,
       filter_text: '',
       site_filter_text: '',
+      bttv_channel_text: ''
   }, function(items) {
       document.getElementById('kappa').checked = items.kappa;
       document.getElementById('globals').checked = items.globals;
@@ -84,8 +90,10 @@ function restore_options() {
       document.getElementById('mute').checked = items.mute;
       document.getElementById('sub_filter').value = items.filter_text;
       document.getElementById('site_filter').value = items.site_filter_text;
+      document.getElementById('bttv_channels').value = items.bttv_channel_text;
   });
 }
+
 
 // footer stuff
 /*
