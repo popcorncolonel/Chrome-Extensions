@@ -346,6 +346,16 @@ function get_all_parents(elt) {
 // return true if you do NOT want to dfs this element!
 // return false at the end to actually dfs this element (aka if all of these checks pass)
 function do_not_replace(element2) {
+
+    if (element2
+        && element2.hasAttribute
+        && element2.getAttribute
+        && element2.hasAttribute('data-text')
+        && element2.getAttribute('data-text') == 'true')
+    {
+      return true;
+    }
+
     if (element2 && element2.tagName && element2.tagName.toLowerCase() == 'script') {
         return true;
     }
